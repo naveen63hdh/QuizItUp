@@ -1,0 +1,39 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.QuizItUp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryVariant">@color/purple_dark</item>
+        <item name="colorOnPrimary">@color/smoke_white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/smoke_white</item>
+        <item name="colorSecondaryVariant">@color/smoke_white</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:colorBackground">@color/smoke_white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.QuizItUp.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryVariant">@color/purple_dark</item>
+        <item name="colorOnPrimary">@color/smoke_white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/smoke_white</item>
+        <item name="colorSecondaryVariant">@color/smoke_white</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:colorBackground">@color/smoke_white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="ThemeOverlay.MySwitchCompat" parent="">
+        <item name="colorControlActivated">@color/purple</item>
+        <item name="colorSwitchThumbNormal">#f1f1f1</item>
+        <item name="android:colorForeground">#42221f1f</item>
+    </style>
+
+</resources>

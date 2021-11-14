@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".quiz.QuizHomeFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".quiz.QuizHomeFragment">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:id="@+id/quizName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Quiz - 1"
+                android:textColor="@color/purple"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/quizName"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C2F54G"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/smoke_white"
+                    android:src="@drawable/ic_copy" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/general"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                android:text="General Instructions :"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/general_instruction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/general"
+                android:textSize="18sp"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:text="Once test has been started you cannot exit the screen. In case if u exit then it will be considered malpractice. So make sure you have quality internet connection. And it is prefred to put mobile in DND  before starting the quiz."
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/specific"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/general_instruction"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                android:text="Specific Instruction by teacher :"
+                android:textColor="@color/black" />
+
+
+            <TextView
+                android:id="@+id/specific_instruction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/specific"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                android:text="Once test has been started you cannot exit the screen. In case if u exit then it will be considered malpractice. So make sure you have quality internet connection. And it is prefred to put mobile in DND  before starting the quiz."
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/start_quiz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="20dp"
+        android:backgroundTint="@color/purple"
+        android:paddingVertical="20dp"
+        android:text="Start Quiz"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

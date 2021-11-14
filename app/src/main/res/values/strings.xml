@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">QuizItUp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="forget_password"><u>Forget Password</u></string>
+    <string name="download_file_format"><u>Download File Format</u></string>
+    <string name="note"><b>Note :</b> Press above button to download an excel sheet and put the questions with respective ans and options in that sheet. To see an example <u>click here</u></string>
+</resources>

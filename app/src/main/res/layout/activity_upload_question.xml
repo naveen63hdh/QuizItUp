@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="10dp"
+    android:background="@color/smoke_white"
+    tools:context=".UploadQuestionActivity">
+
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="20dp">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="Number of Questions"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/row_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/editext_background"
+            android:ems="5"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="@color/purple"
+            android:onClick="generateExcel"
+            android:paddingHorizontal="15dp"
+            android:text="Generate"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/download_ff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll1"
+        android:layout_centerHorizontal="true"
+        android:paddingHorizontal="10dp"
+        android:text="@string/download_file_format"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/instruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/download_ff"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:text="@string/note"
+        />
+
+    <TextView
+        android:id="@+id/upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/instruction"
+        android:text="Upload File:"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:layout_marginTop="20dp"/>
+
+    <ImageButton
+        android:id="@+id/upload_btn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/next_btn"
+        android:layout_below="@+id/upload"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/dialog_background_1"
+        android:layout_marginVertical="30dp"
+        android:src="@drawable/ic_upload" />
+
+    <Button
+        android:id="@+id/next_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:enabled="false"
+        android:layout_marginBottom="10dp"
+        android:text="Next" />
+</RelativeLayout>
