@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Quiz - 1"
+                android:text=""
                 android:textColor="@color/purple"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -35,13 +35,15 @@
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/quiz_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="C2F54G"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
                 <ImageButton
+                    android:id="@+id/copy_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -92,7 +94,7 @@
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="10dp"
                 android:textSize="18sp"
-                android:text="Once test has been started you cannot exit the screen. In case if u exit then it will be considered malpractice. So make sure you have quality internet connection. And it is prefred to put mobile in DND  before starting the quiz."
+                android:text=""
                 android:textColor="@color/black" />
 
         </RelativeLayout>

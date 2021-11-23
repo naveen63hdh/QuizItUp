@@ -47,19 +47,21 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.QuizViewHolder
             @Override
             public void onClick(View view) {
 
+                int pos = holder.getAdapterPosition();
                 Intent intent;
-                switch (holder.getAdapterPosition()) {
-                    case 0:
+//                switch (holder.getAdapterPosition()) {
+//                    case 0:
                         intent = new Intent(context, QuizHomeActivity.class);
-                        intent.putExtra("completed",false);
+                        intent.putExtra("code",quizHomeModels.get(pos).getQuizCode());
+                        intent.putExtra("status",quizHomeModels.get(pos).getStatusCode());
                         context.startActivity(intent);
-                        break;
-                    case 1:
-                        intent = new Intent(context, QuizHomeActivity.class);
-                        intent.putExtra("completed",true);
-                        context.startActivity(intent);
-                        break;
-                }
+//                        break;
+//                    case 1:
+//                        intent = new Intent(context, QuizHomeActivity.class);
+//                        intent.putExtra("completed",true);
+//                        context.startActivity(intent);
+//                        break;
+//                }
             }
         });
         holder.nameTxt.setText(quizHomeModels.get(position).getQuizName());

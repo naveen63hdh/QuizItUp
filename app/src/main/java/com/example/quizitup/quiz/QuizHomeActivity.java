@@ -18,7 +18,10 @@ public class QuizHomeActivity extends AppCompatActivity {
     ViewPager2 viewPager2;
     QuizHomeAdapter quizHomeAdapter;
 
-    boolean isCompleted,isStudent = true;
+    boolean isStudent = true;
+    String quizCode;
+    int statusCode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +32,14 @@ public class QuizHomeActivity extends AppCompatActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.purple)));
         actionBar.setTitle("Quiz-1");
 
-        isCompleted = getIntent().getExtras().getBoolean("completed");
+        quizCode = getIntent().getExtras().getString("code");
+        statusCode = getIntent().getExtras().getInt("status");
 
         tabLayout = findViewById(R.id.tab_layout);
         viewPager2 = findViewById(R.id.container_pager);
 
         FragmentManager fm = getSupportFragmentManager();
-        quizHomeAdapter = new QuizHomeAdapter(fm,getLifecycle(),isCompleted,isStudent);
+        quizHomeAdapter = new QuizHomeAdapter(fm,getLifecycle(),statusCode,isStudent,quizCode);
         viewPager2.setAdapter(quizHomeAdapter);
 
         tabLayout.addTab(tabLayout.newTab().setText("Home"));

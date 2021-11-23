@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.FileUtils;
 import android.provider.DocumentsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 //import com.example.quizitup.libs.DocumentTreeToPath.*;
 
+import com.example.quizitup.question.QuestionModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -37,9 +39,13 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
@@ -47,9 +53,15 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class UploadQuestionActivity extends AppCompatActivity {
 
@@ -60,6 +72,10 @@ public class UploadQuestionActivity extends AppCompatActivity {
 
     Workbook wb;
     String key;
+
+    Double total = 0.0;
+
+    HashMap<String, HashMap<String, QuestionModel>> quizList;
 
     private static final int STORAGE_PERMISSION_CODE = 101;
     private static final String TAG = ".Question.Tag";
@@ -88,7 +104,8 @@ public class UploadQuestionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UploadQuestionActivity.this, QuizDetailsActivity.class);
-                intent.putExtra("code",key);
+                intent.putExtra("code", key);
+                intent.putExtra("total", total);
                 startActivity(intent);
             }
         });
@@ -111,7 +128,7 @@ public class UploadQuestionActivity extends AppCompatActivity {
                 Intent i = new Intent(Intent.ACTION_GET_CONTENT);
                 i.addCategory(Intent.CATEGORY_DEFAULT);
                 i.setType("application/vnd.ms-excel");
-                startActivityForResult(i,200);
+                startActivityForResult(i, 200);
             }
         });
     }
@@ -310,7 +327,7 @@ public class UploadQuestionActivity extends AppCompatActivity {
                 }
 
             }
-        } else if (requestCode==200) {
+        } else if (requestCode == 200) {
             // Convert Document Tree to Path
             Uri uri = data.getData();
             if (uri != null) {
@@ -326,65 +343,174 @@ public class UploadQuestionActivity extends AppCompatActivity {
                 DatabaseReference databaseReference = database.getReference("Quiz");
                 DatabaseReference quizRef = databaseReference.push();
                 key = quizRef.getKey();
-                quizRef.child("Quiz Code").setValue(key);
+                databaseReference.child(key).child("Code").setValue(key).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        if(generateQuizTree(uri)) {
+                            databaseReference.child(key).setValue(quizList).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
+                                    nextBtn.setEnabled(true);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Please check the excel file", Toast.LENGTH_LONG).show();
+                        }
 
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageReference = storage.getReference("Questions");
+                    }
+                });
+
+//                FirebaseStorage storage = FirebaseStorage.getInstance();
+//                StorageReference storageReference = storage.getReference("Questions");
 
 
-                StorageReference riversRef = storageReference.child(key+"/questions.xls");
-                riversRef.putFile(uri)
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                                // Get download URL
-                                riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        //if the upload is successfull and download url is fetched
-                                        //hiding the progress dialog
-                                        quizRef.child("Question URL").setValue(uri.toString());
-
-                                        progressDialog.dismiss();
-                                        //and displaying a success toast
-//                                        Toast.makeText(getApplicationContext(), uri.toString(), Toast.LENGTH_LONG).show();
-                                        Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
-                                        nextBtn.setEnabled(true);
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                    }
-                                });
-
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                //if the upload is not successfull
-                                //hiding the progress dialog
-                                progressDialog.dismiss();
-
-                                //and displaying error message
-                                Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        })
-                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                                //calculating progress percentage
-                                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-
-                                //displaying percentage in progress dialog
-                                progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
-                            }
-                        });
+//                StorageReference riversRef = storageReference.child(key+"/questions.xls");
+//                riversRef.putFile(uri)
+//                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                            @Override
+//                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//
+//                                // Get download URL
+//                                riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                                    @Override
+//                                    public void onSuccess(Uri uri) {
+//                                        //if the upload is successfull and download url is fetched
+//                                        //hiding the progress dialog
+//                                        quizRef.child("Question URL").setValue(uri.toString());
+//
+//                                        progressDialog.dismiss();
+//                                        //and displaying a success toast
+////                                        Toast.makeText(getApplicationContext(), uri.toString(), Toast.LENGTH_LONG).show();
+//                                        Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
+//                                        nextBtn.setEnabled(true);
+//                                    }
+//                                }).addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        progressDialog.dismiss();
+//                                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+//                                    }
+//                                });
+//
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception exception) {
+//                                //if the upload is not successfull
+//                                //hiding the progress dialog
+//                                progressDialog.dismiss();
+//
+//                                //and displaying error message
+//                                Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+//                            }
+//                        })
+//                        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//                            @Override
+//                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+//                                //calculating progress percentage
+//                                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+//
+//                                //displaying percentage in progress dialog
+//                                progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+//                            }
+//                        });
             }
 
         }
+    }
+
+    private boolean generateQuizTree(Uri uri) {
+        quizList = new HashMap<>();
+        HashMap<String, QuestionModel> questionList = new HashMap<>();
+        File excel = new File(uri.getPath());
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+//            FileInputStream inputStream = new FileInputStream(excel);
+            // Create a POI File System object
+            POIFSFileSystem myFileSystem = new POIFSFileSystem(inputStream);
+            // Create a workbook using the File System
+            HSSFWorkbook myWorkBook = new HSSFWorkbook(myFileSystem);
+            // Get the first sheet from workbook
+            HSSFSheet mySheet = myWorkBook.getSheetAt(0);
+            // We now need something to iterate through the cells.
+            Iterator<Row> rowIter = mySheet.rowIterator();
+
+            int rowno = 0;
+
+            while (rowIter.hasNext()) {
+                Log.e(TAG, " row no " + rowno);
+                HSSFRow myRow = (HSSFRow) rowIter.next();
+                if (rowno != 0) {
+                    Iterator<Cell> cellIter = myRow.cellIterator();
+                    int colno = 0;
+                    Double qno = 0.0, marks = 0.0;
+                    int number=0;
+                    String QType = "", question = "", op1 = "", op2 = "", op3 = "", op4 = "", op5 = "", op6 = "", ans = "", exp = "", shuffle = "";
+                    while (cellIter.hasNext()) {
+                        HSSFCell myCell = (HSSFCell) cellIter.next();
+                        if (colno == 0) {
+                            if (myCell.toString()!="") {
+                                qno = Double.parseDouble(myCell.toString());
+                                number = qno.intValue();
+                            }
+                            else {
+                                break;
+                            }
+                        } else if (colno == 1) {
+                            QType = myCell.toString();
+                        } else if (colno == 2) {
+                            question = myCell.toString();
+                        } else if (colno == 3) {
+                            op1 = myCell.toString();
+                        } else if (colno == 4) {
+                            op2 = myCell.toString();
+                        } else if (colno == 5) {
+                            op3 = myCell.toString();
+                        } else if (colno == 6) {
+                            op4 = myCell.toString();
+                        } else if (colno == 7) {
+                            op5 = myCell.toString();
+                        } else if (colno == 8) {
+                            op6 = myCell.toString();
+                        } else if (colno == 9) {
+                            ans = myCell.toString();
+                        } else if (colno == 10) {
+                            exp = myCell.toString();
+                        } else if (colno == 11) {
+                            shuffle = myCell.toString();
+                        } else if (colno == 12) {
+                            marks = Double.parseDouble(myCell.toString());
+                            total += marks;
+                        }
+                        colno++;
+                        Log.e(TAG, " Index :" + myCell.getColumnIndex() + " -- " + myCell.toString());
+                    }
+                    if(number != 0) {
+                        QuestionModel ques = new QuestionModel(qno, QType, question, op1, op2, op3, op4, op5, op6, ans, exp, shuffle, marks);
+                        questionList.put(String.valueOf(number), ques);
+                    }
+                    //textView.append( sno + " -- "+ date+ "  -- "+ det+"\n");
+                }
+                rowno++;
+            }
+            quizList.put("Question", questionList);
+            return true;
+
+        } catch (Exception e) {
+//            Toast.makeText(UploadQuestionActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+            return false;
+        }
+
     }
 }

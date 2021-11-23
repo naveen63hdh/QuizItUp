@@ -40,6 +40,7 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
     SwitchCompat switchCompat;
 
     String quizCode;
+    Double total;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
 
@@ -65,6 +66,7 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
         endJoinTimeBtn = findViewById(R.id.end_joining_btn);
 
         quizCode = getIntent().getStringExtra("code");
+        total = getIntent().getDoubleExtra("total",0.0);
 //        Set Action bar background
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Quiz Details");
@@ -105,6 +107,7 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
                 quizRef.child(quizCode).child("Description").setValue(descriptionTxt.getText().toString());
                 quizRef.child(quizCode).child("Created by").setValue(uid);
                 quizRef.child(quizCode).child("Status").setValue(1);
+                quizRef.child(quizCode).child("total").setValue(total);
                 if (switchCompat.isChecked())
                     quizRef.child(quizCode).child("Score Type").setValue(1);
                 else

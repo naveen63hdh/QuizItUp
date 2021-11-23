@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.quizitup.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -126,20 +129,23 @@ public class HomeActivity extends AppCompatActivity {
                             quizReference.child(code).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot quiz_snapshot) {
-                                    String name, startTime, endTime, status, created_by, type;
-                                    int  status_code;
+                                    String name, startTime, endTime, endJoinTime, status, created_by, type;
+                                    int status_code;
                                     name = quiz_snapshot.child("quiz name").getValue().toString();
                                     startTime = quiz_snapshot.child("Start Time").getValue().toString();
                                     endTime = quiz_snapshot.child("End Time").getValue().toString();
+                                    endJoinTime = quiz_snapshot.child("End Joining Time").getValue().toString();
                                     status_code = Integer.parseInt(quiz_snapshot.child("Status").getValue().toString());
                                     created_by = quiz_snapshot.child("Created by").getValue().toString();
                                     if (created_by.equals(uid))
                                         type = "O";
                                     else
                                         type = "P";
-                                    status = status_map.get(status_code);
                                     String quiz_date = decodeDate(date);
-                                    quizHomeModels.add(new QuizHomeModel(type, name, code, startTime, endTime, quiz_date, status));
+                                    status_code = updateStatus(status_code, quiz_date, startTime, endTime, endJoinTime);
+                                    quizReference.child(code).child("Status").setValue(status_code);
+                                    status = status_map.get(status_code);
+                                    quizHomeModels.add(new QuizHomeModel(type, name, code, startTime, endTime, quiz_date, status, status_code));
                                     HomeAdapter homeAdapter = new HomeAdapter(quizHomeModels, HomeActivity.this);
                                     recyclerView.setAdapter(homeAdapter);
                                 }
@@ -161,13 +167,68 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    private int updateStatus(int status_code, String quiz_date, String startTime, String endTime, String endJoinTime) {
+        Calendar c = Calendar.getInstance();
+        Date today = c.getTime();
+        today = decodeToDate(encodeDate(today));
+        Date quiz = decodeToDate(quiz_date);
+        Date now = null,start = null,end = null,endJoin = null;
+
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm aa", Locale.US);
+        try {
+            String time = timeFormat.format(c.getTime());
+            startTime = timeFormat.format(timeFormat.parse(startTime));
+            endTime = timeFormat.format(timeFormat.parse(endTime));
+            endJoinTime = timeFormat.format(timeFormat.parse(endJoinTime));
+            now = timeFormat.parse(time);
+            start = timeFormat.parse(startTime);
+            end = timeFormat.parse(endTime);
+            endJoin = timeFormat.parse(endJoinTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (today.compareTo(quiz)>0) {
+            if (status_code == 1) {
+                status_code = 4;
+            }
+        } else if(today.compareTo(quiz)==0) {
+            if (now.compareTo(start)>=0 && status_code<2)
+                status_code = 2;
+            else if (now.compareTo(endJoin)>=0 && status_code<3)
+                status_code = 3;
+            else if (now.compareTo(end)>=0 && status_code<4)
+                status_code = 4;
+        }
+
+
+        Log.i("TIME_FORMATTER_Start", start.toString());
+        Log.i("TIME_FORMATTER_Now", now.toString());
+        return status_code;
+    }
+
+    private String encodeDate(Date date) {
+        String d = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(date);
+        return d;
+    }
+
     private String decodeDate(String date) {
         try {
             Date d = new SimpleDateFormat("yyyy_MM_dd", Locale.ENGLISH).parse(date);
-            date = new SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH).format(d);
+            date = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(d);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return date;
+    }
+
+    private Date decodeToDate(String date) {
+        Date d = null;
+        try {
+            d = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(date);
+       } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return d;
     }
 }

@@ -11,22 +11,25 @@ import com.example.quizitup.SignUpFragment;
 
 public class QuizHomeAdapter  extends FragmentStateAdapter {
 
-    boolean isCompleted,isStudent;
-    public QuizHomeAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle,boolean isCompleted,boolean isStudent) {
+    boolean isStudent;
+    String code;
+    int status;
+    public QuizHomeAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle,int status,boolean isStudent,String code) {
         super(fragmentManager, lifecycle);
-        this.isCompleted = isCompleted;
+        this.status = status;
         this.isStudent = isStudent;
+        this.code = code;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
         if (position == 1)
-            return new ParticipantsFragment();
+            return new ParticipantsFragment(code);
         else {
-            if(isCompleted)
+            if(status==4)
                 return new QuizCompletedHomeFragment();
-            return new QuizHomeFragment();
+            return new QuizHomeFragment(code);
         }
     }
 

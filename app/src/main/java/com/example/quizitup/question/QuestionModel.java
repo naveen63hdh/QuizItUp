@@ -4,7 +4,7 @@ public class QuestionModel {
     Double qno,marks;
     String QType,question,op1,op2,op3,op4,op5,op6,ans,exp,shuffle;
 
-    QuestionModel(Double qno,String QType,String question,String op1,String op2,String op3,String op4,String op5,String op6,String ans,String exp,String shuffle,Double marks) {
+    public QuestionModel(Double qno,String QType,String question,String op1,String op2,String op3,String op4,String op5,String op6,String ans,String exp,String shuffle,Double marks) {
         this.qno = qno;
         this.QType = QType;
         this.question = question;
@@ -18,6 +18,11 @@ public class QuestionModel {
         this.exp = exp;
         this.shuffle = shuffle;
         this.marks = marks;
+    }
+
+    public QuestionModel(Double marks, String ans) {
+        this.marks = marks;
+        this.ans = ans;
     }
 
     public Double getMarks() {
