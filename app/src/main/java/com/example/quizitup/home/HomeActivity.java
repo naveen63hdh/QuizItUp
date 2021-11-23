@@ -129,7 +129,8 @@ public class HomeActivity extends AppCompatActivity {
                             quizReference.child(code).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot quiz_snapshot) {
-                                    String name, startTime, endTime, endJoinTime, status, created_by, type;
+                                    String name, startTime, endTime, endJoinTime, status, created_by;
+                                    boolean isStudent;
                                     int status_code;
                                     name = quiz_snapshot.child("quiz name").getValue().toString();
                                     startTime = quiz_snapshot.child("Start Time").getValue().toString();
@@ -138,14 +139,14 @@ public class HomeActivity extends AppCompatActivity {
                                     status_code = Integer.parseInt(quiz_snapshot.child("Status").getValue().toString());
                                     created_by = quiz_snapshot.child("Created by").getValue().toString();
                                     if (created_by.equals(uid))
-                                        type = "O";
+                                        isStudent = false;
                                     else
-                                        type = "P";
+                                        isStudent = true;
                                     String quiz_date = decodeDate(date);
                                     status_code = updateStatus(status_code, quiz_date, startTime, endTime, endJoinTime);
                                     quizReference.child(code).child("Status").setValue(status_code);
                                     status = status_map.get(status_code);
-                                    quizHomeModels.add(new QuizHomeModel(type, name, code, startTime, endTime, quiz_date, status, status_code));
+                                    quizHomeModels.add(new QuizHomeModel(isStudent, name, code, startTime, endTime, quiz_date, status, status_code));
                                     HomeAdapter homeAdapter = new HomeAdapter(quizHomeModels, HomeActivity.this);
                                     recyclerView.setAdapter(homeAdapter);
                                 }
@@ -172,7 +173,7 @@ public class HomeActivity extends AppCompatActivity {
         Date today = c.getTime();
         today = decodeToDate(encodeDate(today));
         Date quiz = decodeToDate(quiz_date);
-        Date now = null,start = null,end = null,endJoin = null;
+        Date now = null, start = null, end = null, endJoin = null;
 
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm aa", Locale.US);
         try {
@@ -188,17 +189,20 @@ public class HomeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (today.compareTo(quiz)>0) {
+        if (today.compareTo(quiz) > 0) {
             if (status_code == 1) {
                 status_code = 4;
             }
-        } else if(today.compareTo(quiz)==0) {
-            if (now.compareTo(start)>=0 && status_code<2)
-                status_code = 2;
-            else if (now.compareTo(endJoin)>=0 && status_code<3)
-                status_code = 3;
-            else if (now.compareTo(end)>=0 && status_code<4)
-                status_code = 4;
+        } else if (today.compareTo(quiz) == 0) {
+//            if (now.compareTo(start)>=0 && status_code<2)
+//                status_code = 2;
+//            else
+            if (status_code==1) {
+                if (now.compareTo(start) >= 0)
+                    status_code = 2;
+                if (now.compareTo(end) >= 0)
+                    status_code = 4;
+            }
         }
 
 
@@ -226,7 +230,7 @@ public class HomeActivity extends AppCompatActivity {
         Date d = null;
         try {
             d = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(date);
-       } catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         return d;

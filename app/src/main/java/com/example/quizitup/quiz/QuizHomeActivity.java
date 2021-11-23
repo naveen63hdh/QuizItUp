@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.example.quizitup.LoginAdapter;
 import com.example.quizitup.R;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class QuizHomeActivity extends AppCompatActivity {
 
@@ -18,7 +19,7 @@ public class QuizHomeActivity extends AppCompatActivity {
     ViewPager2 viewPager2;
     QuizHomeAdapter quizHomeAdapter;
 
-    boolean isStudent = true;
+    boolean isStudent;
     String quizCode;
     int statusCode;
 
@@ -33,6 +34,7 @@ public class QuizHomeActivity extends AppCompatActivity {
         actionBar.setTitle("Quiz-1");
 
         quizCode = getIntent().getExtras().getString("code");
+        isStudent = getIntent().getExtras().getBoolean("isStudent");
         statusCode = getIntent().getExtras().getInt("status");
 
         tabLayout = findViewById(R.id.tab_layout);

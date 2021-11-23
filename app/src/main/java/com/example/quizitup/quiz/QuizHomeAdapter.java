@@ -27,9 +27,9 @@ public class QuizHomeAdapter  extends FragmentStateAdapter {
         if (position == 1)
             return new ParticipantsFragment(code);
         else {
-            if(status==4)
-                return new QuizCompletedHomeFragment();
-            return new QuizHomeFragment(code);
+            if(status==4 && isStudent)
+                return new QuizCompletedHomeFragment(code);
+            return new QuizHomeFragment(code,isStudent);
         }
     }
 

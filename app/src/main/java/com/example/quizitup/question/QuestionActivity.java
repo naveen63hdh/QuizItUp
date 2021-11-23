@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.drawable.ColorDrawable;
@@ -15,6 +16,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.quizitup.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -34,6 +40,13 @@ public class QuestionActivity extends AppCompatActivity {
     private static final int STORAGE_PERMISSION_CODE = 101;
     private static final String TAG = ".Question.Tag";
 
+    String quiz_code;
+    FirebaseDatabase database;
+    DatabaseReference questionRef;
+    ArrayList<QuestionModel> questionList;
+
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +56,62 @@ public class QuestionActivity extends AppCompatActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.purple)));
         actionBar.setTitle("Quiz-1");
 
+        quiz_code = getIntent().getStringExtra("code");
+
+        database = FirebaseDatabase.getInstance();
+        questionRef = database.getReference("Quiz").child(quiz_code).child("Question");
 
         // Check Storage Permission
-        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
-        ArrayList<QuestionModel> questionList = readExcelFileFromAssets();
-        showList(questionList);
-        startQuiz(questionList);
+        //checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
+//        readExcelFileFromAssets();
+//        showList(questionList);
+//        startQuiz(questionList);
     }
-    private void startQuiz(ArrayList<QuestionModel> questionList) {
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        progressDialog = ProgressDialog.show(this,"Please Wait","Loading your questions");
+        questionList = new ArrayList<>();
+        populateDataset();
+    }
+
+    private void populateDataset() {
+        questionRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot questionSnap : snapshot.getChildren()) {
+                    double marks, qno;
+                    String QType, question, op1, op2, op3, op4, op5, op6, ans, exp, shuffle;
+                    qno = Double.parseDouble(questionSnap.child("qno").getValue().toString());
+                    marks = Double.parseDouble(questionSnap.child("marks").getValue().toString());
+                    QType = questionSnap.child("qtype").getValue().toString();
+                    question = questionSnap.child("question").getValue().toString();
+                    op1 = questionSnap.child("op1").getValue().toString();
+                    op2 = questionSnap.child("op2").getValue().toString();
+                    op3 = questionSnap.child("op3").getValue().toString();
+                    op4 = questionSnap.child("op4").getValue().toString();
+                    op5 = questionSnap.child("op5").getValue().toString();
+                    op6 = questionSnap.child("op6").getValue().toString();
+                    ans = questionSnap.child("ans").getValue().toString();
+                    exp = questionSnap.child("exp").getValue().toString();
+                    shuffle = questionSnap.child("shuffle").getValue().toString();
+
+                    QuestionModel questionModel = new QuestionModel(qno,QType,question,op1,op2,op3,op4,op5,op6,ans,exp,shuffle,marks);
+                    questionList.add(questionModel);
+                }
+                showList();
+                startQuiz();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void startQuiz() {
 //        int counter = 0;
         QuestionModel question = questionList.get(0);
 
@@ -64,39 +125,13 @@ public class QuestionActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, new TrueFalseFragment(questionList,0)).commit();
                 break;
         }
+        progressDialog.dismiss();
 
     }
 
-    private void showList(ArrayList<QuestionModel> questionList) {
+    private void showList() {
         for(QuestionModel ques:questionList) {
             Log.i("EXCEL_OUTPUT","Qno = "+ques.qno+" Type = "+ques.QType+" Ques = "+ques.question+" OP1 = "+ques.op1+" OP2 = "+ques.op2+" OP3 = "+ques.op3+" OP4 = "+ques.op4+" OP5 = "+ques.op5+" OP6 = "+ques.op6+" ANS = "+ques.ans+" explanation = "+ques.exp+" shuffle = "+ques.shuffle+" Marks = "+ques.marks);
-        }
-    }
-
-
-    // Function to check and request permission.
-    public void checkPermission(String permission, int requestCode) {
-        if (ContextCompat.checkSelfPermission(QuestionActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
-            // Requesting the permission
-            ActivityCompat.requestPermissions(QuestionActivity.this, new String[]{permission}, requestCode);
-        }
-    }
-
-    // This function is called when user accept or decline the permission.
-    // Request Code is used to check which permission called this function.
-    // This request code is provided when user is prompt for permission.
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == STORAGE_PERMISSION_CODE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(QuestionActivity.this, "Storage Permission Granted", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(QuestionActivity.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 

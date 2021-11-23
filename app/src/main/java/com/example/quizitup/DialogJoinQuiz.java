@@ -220,12 +220,12 @@ public class DialogJoinQuiz  extends Dialog {
                 status_code = 4;
             }
         } else if(today.compareTo(quiz)==0) {
-            if (now.compareTo(start)>=0 && status_code<2)
-                status_code = 2;
-            else if (now.compareTo(endJoin)>=0 && status_code<3)
-                status_code = 3;
-            else if (now.compareTo(end)>=0 && status_code<4)
-                status_code = 4;
+            if (status_code==1) {
+                if (now.compareTo(start) >= 0)
+                    status_code = 2;
+                if (now.compareTo(end) >= 0)
+                    status_code = 4;
+            }
         }
 
 

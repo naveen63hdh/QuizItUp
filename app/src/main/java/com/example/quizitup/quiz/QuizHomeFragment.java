@@ -38,8 +38,10 @@ public class QuizHomeFragment extends Fragment {
     FirebaseAuth auth;
 
     String code;
-    public QuizHomeFragment(String code) {
+    boolean isStudent;
+    public QuizHomeFragment(String code, boolean isStudent) {
         this.code = code;
+        this.isStudent = isStudent;
         // Required empty public constructor
     }
 
@@ -78,6 +80,7 @@ public class QuizHomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), QuestionActivity.class);
+                intent.putExtra("code",code);
                 getContext().startActivity(intent);
             }
         });

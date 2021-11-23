@@ -25,6 +25,10 @@ public class QuestionModel {
         this.ans = ans;
     }
 
+    public QuestionModel() {
+
+    }
+
     public Double getMarks() {
         return marks;
     }

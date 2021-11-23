@@ -1,14 +1,15 @@
 package com.example.quizitup.home;
 
 public class QuizHomeModel {
-    String quizName, quizCode, startTime, endTime, qDate, qStatus,mode;
+    String quizName, quizCode, startTime, endTime, qDate, qStatus;
+    boolean isStudent;
     int statusCode;
 
-    QuizHomeModel(String mode,String quizName,String quizCode, String startTime, String endTime, String qDate,String qStatus,int statusCode) {
+    QuizHomeModel(boolean isStudent,String quizName,String quizCode, String startTime, String endTime, String qDate,String qStatus,int statusCode) {
         this.quizName = quizName;
         this.quizCode = quizCode;
         this.startTime = startTime;
-        this.mode = mode;
+        this.isStudent = isStudent;
         this.endTime = endTime;
         this.qDate = qDate;
         this.qStatus = qStatus;
@@ -19,8 +20,8 @@ public class QuizHomeModel {
         return statusCode;
     }
 
-    public String getMode() {
-        return mode;
+    public boolean isStudent() {
+        return isStudent;
     }
 
     public String getQuizCode() {
