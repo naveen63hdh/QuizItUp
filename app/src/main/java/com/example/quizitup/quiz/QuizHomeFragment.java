@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.example.quizitup.R;
 import com.example.quizitup.question.QuestionActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,11 +29,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class QuizHomeFragment extends Fragment {
 
     Button startQuiz;
     ImageButton cpyBtn;
-    TextView nameTxt,codeTxt,instructionTxt;
+    TextView nameTxt, codeTxt, instructionTxt;
 
     FirebaseDatabase database;
     DatabaseReference quizRef;
@@ -39,6 +47,7 @@ public class QuizHomeFragment extends Fragment {
 
     String code;
     boolean isStudent;
+
     public QuizHomeFragment(String code, boolean isStudent) {
         this.code = code;
         this.isStudent = isStudent;
@@ -65,7 +74,6 @@ public class QuizHomeFragment extends Fragment {
         database = FirebaseDatabase.getInstance();
         quizRef = database.getReference("Quiz").child(code);
 
-
         cpyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,9 +87,67 @@ public class QuizHomeFragment extends Fragment {
         startQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), QuestionActivity.class);
-                intent.putExtra("code",code);
-                getContext().startActivity(intent);
+
+                quizRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int status = Integer.parseInt(snapshot.child("Status").getValue().toString());
+                        if (isStudent) {
+                            if (status <= 2) {
+                                Toast.makeText(getContext(), "Your Teacher haven't started the quiz yet", Toast.LENGTH_SHORT).show();
+                            } else if (status == 3) {
+                                Intent intent = new Intent(getContext(), QuestionActivity.class);
+                                intent.putExtra("code", code);
+                                getContext().startActivity(intent);
+                            } else {
+                                Toast.makeText(getContext(), "Quiz Has been ended", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            int score_type = Integer.parseInt(snapshot.child("Score Type").getValue().toString());
+                            if (status == 1)
+                                Toast.makeText(getContext(), "Quiz Hasn't Started yet", Toast.LENGTH_SHORT).show();
+                            else if (status == 2) {
+                                quizRef.child("Status").setValue(3).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(getContext(), "Quiz Has been started", Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getContext(), "Please Check your internet connection and try again", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else if (status == 3) {
+                                if (score_type == 1)
+                                    Toast.makeText(getContext(), "Score has been released", Toast.LENGTH_SHORT).show();
+                                else
+                                    Toast.makeText(getContext(), "Score can be released only after quiz ended", Toast.LENGTH_SHORT).show();
+                            } else {
+                                if (score_type == 0) {
+                                    quizRef.child("Score Released").setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Toast.makeText(getContext(), "Score has been released", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getContext(), "Please Check your internet connection and try again", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(getContext(), "Score has been released", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
         return view;
@@ -91,15 +157,35 @@ public class QuizHomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         resumeFrag();
-
+        updateBtn();
     }
 
-    private void updateStatus() {
+    private void updateBtn() {
+        if (isStudent) {
+            startQuiz.setText("Start Quiz");
+        } else {
+            quizRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    int status = Integer.parseInt(snapshot.child("Status").getValue().toString());
+                    if (status <= 2)
+                        startQuiz.setText("Start Quiz For Students");
+                    else {
+                        startQuiz.setText("Release Answers");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
     }
 
     void resumeFrag() {
 
-        ProgressDialog progressDialog = ProgressDialog.show(getContext(),"Please Wait","Loading Details");
+        ProgressDialog progressDialog = ProgressDialog.show(getContext(), "Please Wait", "Loading Details");
 
         quizRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -107,12 +193,29 @@ public class QuizHomeFragment extends Fragment {
                 String code = snapshot.getKey();
                 String name = snapshot.child("quiz name").getValue().toString();
                 String ins = snapshot.child("Description").getValue().toString();
-//                String startTime = snapshot.child("Start Time").getValue().toString();
-//                String endTime = snapshot.child("End Time").getValue().toString();
+                String endTime = snapshot.child("End Time").getValue().toString();
 //                String endJoinTime = snapshot.child("End Joining Time").getValue().toString();
-//                int status_code = Integer.parseInt(snapshot.child("Status").getValue().toString());
+                int status_code = Integer.parseInt(snapshot.child("Status").getValue().toString());
 
-                updateStatus();
+//  --------------------------------------- Code TO Update Status to End -------------------------------------------------
+                if (status_code != 4) {
+                    Calendar c = Calendar.getInstance();
+                    SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm aa", Locale.US);
+                    try {
+                        String time = timeFormat.format(c.getTime());
+                        endTime = timeFormat.format(timeFormat.parse(endTime));
+                        Date now = timeFormat.parse(time);
+                        Date end = timeFormat.parse(endTime);
+                        if (now.compareTo(end) >= 0) {
+                            quizRef.child("Status").setValue(4);
+                        }
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+//  --------------------------------------- Code TO Update Status to End -------------------------------------------------
+
+                }
 
                 nameTxt.setText(name);
                 codeTxt.setText(code);

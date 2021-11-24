@@ -2,7 +2,8 @@ package com.example.quizitup.question;
 
 public class QuestionModel {
     Double qno,marks;
-    String QType,question,op1,op2,op3,op4,op5,op6,ans,exp,shuffle;
+    String QType,question,op1,op2,op3,op4,op5,op6,ans,exp,shuffle,choice;
+    int score;
 
     public QuestionModel(Double qno,String QType,String question,String op1,String op2,String op3,String op4,String op5,String op6,String ans,String exp,String shuffle,Double marks) {
         this.qno = qno;
@@ -20,9 +21,11 @@ public class QuestionModel {
         this.marks = marks;
     }
 
-    public QuestionModel(Double marks, String ans) {
+    public QuestionModel(Double marks, String ans,String choice,int score) {
         this.marks = marks;
         this.ans = ans;
+        this.choice = choice;
+        this.score = score;
     }
 
     public QuestionModel() {

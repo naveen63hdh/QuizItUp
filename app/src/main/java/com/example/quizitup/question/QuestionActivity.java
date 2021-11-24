@@ -16,6 +16,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.quizitup.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +33,11 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -40,9 +46,9 @@ public class QuestionActivity extends AppCompatActivity {
     private static final int STORAGE_PERMISSION_CODE = 101;
     private static final String TAG = ".Question.Tag";
 
-    String quiz_code;
+    String quiz_code,endTime;
     FirebaseDatabase database;
-    DatabaseReference questionRef;
+    DatabaseReference quizRef, questionRef;
     ArrayList<QuestionModel> questionList;
 
     ProgressDialog progressDialog;
@@ -59,6 +65,7 @@ public class QuestionActivity extends AppCompatActivity {
         quiz_code = getIntent().getStringExtra("code");
 
         database = FirebaseDatabase.getInstance();
+        quizRef = database.getReference("Quiz").child(quiz_code);
         questionRef = database.getReference("Quiz").child(quiz_code).child("Question");
 
         // Check Storage Permission
@@ -72,8 +79,56 @@ public class QuestionActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         progressDialog = ProgressDialog.show(this,"Please Wait","Loading your questions");
+        updateStatus();
         questionList = new ArrayList<>();
-        populateDataset();
+//        populateDataset();
+    }
+
+    private void updateStatus() {
+        quizRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                endTime = snapshot.child("End Time").getValue().toString();
+//                String endJoinTime = snapshot.child("End Joining Time").getValue().toString();
+                int status_code = Integer.parseInt(snapshot.child("Status").getValue().toString());
+
+//  --------------------------------------- Code TO Update Status to End -------------------------------------------------
+                if (status_code != 4) {
+                    Calendar c = Calendar.getInstance();
+                    SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm aa", Locale.US);
+                    try {
+                        String time = timeFormat.format(c.getTime());
+                        endTime = timeFormat.format(timeFormat.parse(endTime));
+                        Date now = timeFormat.parse(time);
+                        Date end = timeFormat.parse(endTime);
+                        if (now.compareTo(end) >= 0)
+                            quizRef.child("Status").setValue(4).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(QuestionActivity.this, "Some Error occurred please check internet connection and try again", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+//  --------------------------------------- Code TO Update Status to End -------------------------------------------------
+                    populateDataset();
+                } else
+                    finish();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void populateDataset() {
@@ -119,10 +174,10 @@ public class QuestionActivity extends AppCompatActivity {
 //        getIntent().putParcelableArrayListExtra("sag",);
         switch (question.getQType().toUpperCase(Locale.ROOT)) {
             case "M":
-                getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, new McqFragment(questionList,0)).commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, new McqFragment(questionList,0,quiz_code,endTime)).commit();
                 break;
             case "TF":
-                getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, new TrueFalseFragment(questionList,0)).commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, new TrueFalseFragment(questionList,0,quiz_code,endTime)).commit();
                 break;
         }
         progressDialog.dismiss();

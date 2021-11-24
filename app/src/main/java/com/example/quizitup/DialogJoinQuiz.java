@@ -112,6 +112,7 @@ public class DialogJoinQuiz  extends Dialog {
                                             reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("quiz code").setValue(code);
                                             reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("quiz name").setValue(quiz);
                                             reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("total").setValue(total);
+                                            reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("Score").setValue(0);
                                             participantRef.child(code).child("Participants").child(uid).child("Name").setValue(uname);
 
                                             reference.child("Users").child(uid).child("Quiz").child(date).child(code).setValue(questions).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -168,7 +169,7 @@ public class DialogJoinQuiz  extends Dialog {
             qno = questionSnap.getKey();
             ans = questionSnap.child("ans").getValue().toString();
             marks = Double.valueOf(questionSnap.child("marks").getValue().toString());
-            QuestionModel model = new QuestionModel(marks,ans);
+            QuestionModel model = new QuestionModel(marks,ans,"NULL",0);
             questions.put(qno,model);
         }
     }
