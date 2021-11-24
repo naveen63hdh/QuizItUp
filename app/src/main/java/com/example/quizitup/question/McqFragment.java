@@ -113,7 +113,7 @@ public class McqFragment extends Fragment implements View.OnClickListener {
         questionRef = database.getReference().child("Quiz").child(code).child("Question");
         String date = encodeDate(Calendar.getInstance().getTime());
         questionNo = questions.get(position).getQno().intValue();
-        userAnsRef = database.getReference().child("Users").child(uid).child(date).child(code).child(String.valueOf(questionNo));
+        userAnsRef = database.getReference().child("Users").child(uid).child("Quiz").child(date).child(code).child(String.valueOf(questionNo));
 
         Double val = Double.parseDouble(questions.get(position).getAns());
         int ansPos = val.intValue();

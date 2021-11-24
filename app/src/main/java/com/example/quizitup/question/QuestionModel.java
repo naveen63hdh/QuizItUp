@@ -28,6 +28,14 @@ public class QuestionModel {
         this.score = score;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public String getChoice() {
+        return choice;
+    }
+
     public QuestionModel() {
 
     }

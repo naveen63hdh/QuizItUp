@@ -94,7 +94,7 @@ public class TrueFalseFragment extends Fragment {
         questionRef = database.getReference().child("Quiz").child(code).child("Question");
         String date = encodeDate(Calendar.getInstance().getTime());
         questionNo = questions.get(position).getQno().intValue();
-        userAnsRef = database.getReference().child("Users").child(uid).child(date).child(code).child(String.valueOf(questionNo));
+        userAnsRef = database.getReference().child("Users").child(uid).child("Quiz").child(date).child(code).child(String.valueOf(questionNo));
 
         ans = questions.get(position).getAns();
 
@@ -272,7 +272,25 @@ public class TrueFalseFragment extends Fragment {
         else
             prevButton.setEnabled(true);
 
-        // TODO GET choice from database
+        userAnsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String choice = snapshot.child("choice").getValue().toString();
+                if (!choice.equals("NULL")) {
+                    if (choice.equals("T"))
+                        trueRadio.setChecked(true);
+                    else if (choice.equals("F"))
+                        falseRadio.setChecked(true);
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
     }
 

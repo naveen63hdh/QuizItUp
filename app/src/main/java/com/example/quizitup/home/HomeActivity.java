@@ -180,7 +180,7 @@ public class HomeActivity extends AppCompatActivity {
             String time = timeFormat.format(c.getTime());
             startTime = timeFormat.format(timeFormat.parse(startTime));
             endTime = timeFormat.format(timeFormat.parse(endTime));
-            endJoinTime = timeFormat.format(timeFormat.parse(endJoinTime));
+//            endJoinTime = timeFormat.format(timeFormat.parse(endJoinTime));
             now = timeFormat.parse(time);
             start = timeFormat.parse(startTime);
             end = timeFormat.parse(endTime);
