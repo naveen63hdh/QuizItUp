@@ -47,7 +47,7 @@ public class TrueFalseFragment extends Fragment {
     RadioGroup trueFalseGroup;
     RadioButton trueRadio, falseRadio;
 
-    String code, endTime, ans;
+    String code, endTime, ans ,uid;
     int questionNo;
 
 
@@ -88,7 +88,7 @@ public class TrueFalseFragment extends Fragment {
 
 
         auth = FirebaseAuth.getInstance();
-        String uid = auth.getUid();
+        uid = auth.getUid();
         database = FirebaseDatabase.getInstance();
         quizRef = database.getReference().child("Quiz").child(code);
         questionRef = database.getReference().child("Quiz").child(code).child("Question");
@@ -178,7 +178,18 @@ public class TrueFalseFragment extends Fragment {
                     position++;
                     progressDialog.dismiss();
                     if (submit) {
-                        getActivity().finish();
+                        quizRef.child("Participants").child(uid).child("isCompleted").setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                getActivity().finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "Some Error occurred", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                         return;
                     }
                     switch (questions.get(position).getQType().toUpperCase(Locale.ROOT)) {

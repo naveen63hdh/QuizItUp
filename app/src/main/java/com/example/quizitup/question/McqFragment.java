@@ -237,9 +237,19 @@ public class McqFragment extends Fragment implements View.OnClickListener {
                     position++;
                     progressDialog.dismiss();
                     if (submit) {
-                        Toast.makeText(getContext(), "Quiz Ended and your answers have been saved", Toast.LENGTH_SHORT).show();
-                        getActivity().finish();
-                        return;
+                        quizRef.child("Participants").child(uid).child("isCompleted").setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                getActivity().finish();
+                                return;
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "Some Error occurred", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
                     switch (questions.get(position).getQType().toUpperCase(Locale.ROOT)) {
                         case "M":

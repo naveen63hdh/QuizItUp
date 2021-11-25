@@ -42,6 +42,7 @@
         <entry key="app/src/main/res/layout/dialog_quiz_fab.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/fragment_mcq.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/fragment_participants.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/layout/fragment_quiz_completed_home.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/fragment_quiz_home.xml" value="0.19282051282051282" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.19583333333333333" />

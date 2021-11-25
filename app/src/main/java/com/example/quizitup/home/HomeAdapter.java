@@ -53,6 +53,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.QuizViewHolder
 //                    case 0:
                         intent = new Intent(context, QuizHomeActivity.class);
                         intent.putExtra("code",quizHomeModels.get(pos).getQuizCode());
+                        intent.putExtra("date",quizHomeModels.get(pos).getqDate());
                         intent.putExtra("status",quizHomeModels.get(pos).getStatusCode());
                         intent.putExtra("isStudent",quizHomeModels.get(pos).isStudent());
                         context.startActivity(intent);

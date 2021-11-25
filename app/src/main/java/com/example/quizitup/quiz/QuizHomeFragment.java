@@ -125,7 +125,7 @@ public class QuizHomeFragment extends Fragment {
                                     Toast.makeText(getContext(), "Score can be released only after quiz ended", Toast.LENGTH_SHORT).show();
                             } else {
                                 if (score_type == 0) {
-                                    quizRef.child("Score Released").setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    quizRef.child("Score Type").setValue(1).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
                                             Toast.makeText(getContext(), "Score has been released", Toast.LENGTH_SHORT).show();
@@ -156,8 +156,8 @@ public class QuizHomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        resumeFrag();
         updateBtn();
+        resumeFrag();
     }
 
     private void updateBtn() {
@@ -214,7 +214,8 @@ public class QuizHomeFragment extends Fragment {
                         e.printStackTrace();
                     }
 //  --------------------------------------- Code TO Update Status to End -------------------------------------------------
-
+                } else {
+//                       TODO Quiz Ended
                 }
 
                 nameTxt.setText(name);

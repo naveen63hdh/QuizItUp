@@ -67,7 +67,25 @@ public class HomeActivity extends AppCompatActivity {
         statusReference = database.getReference("Status");
         uid = auth.getUid();
 
-//        Get Status codes and its values
+        moreFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoreDialog dialog = new MoreDialog(HomeActivity.this);
+                WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
+                wmlp.gravity = Gravity.BOTTOM | Gravity.END;
+                wmlp.x = 100;   //x position
+                wmlp.y = 150;   //y position
+                dialog.show();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        quizHomeModels = new ArrayList<>();
+        //        Get Status codes and its values
         status_map = new HashMap<>();
         statusReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -85,30 +103,6 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-
-
-        // Dummy values for quiz adapter
-
-
-//        quizHomeModels.add(new QuizHomeModel("O","Quiz-1","ABC123","5:00 PM","6:00 PM","10/10/2021","Yet to Start"));
-//        quizHomeModels.add(new QuizHomeModel("P","Quiz-2","A1B2C3","10:00 AM","10:30 PM","10/10/2021","Yet to Start"));
-//        quizHomeModels.add(new QuizHomeModel("O","Quiz-3","CBA321","5:00 PM","6:00 PM","9/10/2021","Ended"));
-//        quizHomeModels.add(new QuizHomeModel("P","Quiz-4","C3B2A1","10:00 PM","10:30 PM","9/10/2021","Ended"));
-
-//        HomeAdapter homeAdapter = new HomeAdapter(quizHomeModels,this);
-//        recyclerView.setAdapter(homeAdapter);
-
-        moreFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MoreDialog dialog = new MoreDialog(HomeActivity.this);
-                WindowManager.LayoutParams wmlp = dialog.getWindow().getAttributes();
-                wmlp.gravity = Gravity.BOTTOM | Gravity.END;
-                wmlp.x = 100;   //x position
-                wmlp.y = 150;   //y position
-                dialog.show();
             }
         });
     }

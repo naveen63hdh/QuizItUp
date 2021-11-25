@@ -1,5 +1,7 @@
 package com.example.quizitup.quiz;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,11 +15,12 @@ public class QuizHomeAdapter  extends FragmentStateAdapter {
 
     boolean isStudent;
     String code;
-    int status;
-    public QuizHomeAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle,int status,boolean isStudent,String code) {
+    int status,isCompleted;
+    public QuizHomeAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle,int status,boolean isStudent,String code,int isCompleted) {
         super(fragmentManager, lifecycle);
         this.status = status;
         this.isStudent = isStudent;
+        this.isCompleted = isCompleted;
         this.code = code;
     }
 
@@ -27,7 +30,7 @@ public class QuizHomeAdapter  extends FragmentStateAdapter {
         if (position == 1)
             return new ParticipantsFragment(code);
         else {
-            if(status==4 && isStudent)
+            if((status==4 || isCompleted==1) && isStudent)
                 return new QuizCompletedHomeFragment(code);
             return new QuizHomeFragment(code,isStudent);
         }

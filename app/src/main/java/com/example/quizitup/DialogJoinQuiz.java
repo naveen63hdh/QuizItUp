@@ -109,11 +109,13 @@ public class DialogJoinQuiz  extends Dialog {
                                             progressDialog.dismiss();
                                             Toast.makeText(getContext(), "Already Joined", Toast.LENGTH_SHORT).show();
                                         } else {
-                                            reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("quiz code").setValue(code);
-                                            reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("quiz name").setValue(quiz);
-                                            reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("total").setValue(total);
-                                            reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("Score").setValue(0);
+//                                            reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("quiz code").setValue(code);
+//                                            reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("quiz name").setValue(quiz);
+//                                            reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("total").setValue(total);
+//                                            reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("Score").setValue(0);
                                             participantRef.child(code).child("Participants").child(uid).child("Name").setValue(uname);
+                                            participantRef.child(code).child("Participants").child(uid).child("score").setValue(0);
+                                            participantRef.child(code).child("Participants").child(uid).child("isCompleted").setValue(0);
 
                                             reference.child("Users").child(uid).child("Quiz").child(date).child(code).setValue(questions).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override

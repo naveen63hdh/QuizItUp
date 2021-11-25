@@ -35,6 +35,7 @@
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/quiz_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="C2F54G"
@@ -42,6 +43,7 @@
                     android:textSize="18sp" />
 
                 <ImageButton
+                    android:id="@+id/cpyBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -73,12 +75,13 @@
                 >
 
                 <TextView
+                    android:id="@+id/scoreTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="10/20"
-                    android:textSize="24sp"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
 
             </RelativeLayout>
 
@@ -87,13 +90,14 @@
     </androidx.core.widget.NestedScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/viewResultBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="20dp"
         android:backgroundTint="@color/purple"
         android:paddingVertical="20dp"
-        android:text="Start Quiz"
+        android:text="View Result"
         android:textColor="@color/white" />
 
 </RelativeLayout>
