@@ -22,6 +22,7 @@
         <entry key="app/src/main/res/drawable/card_background.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/drawable/dialog_background_1.xml" value="0.20871794871794871" />
         <entry key="app/src/main/res/drawable/editext_background.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/drawable/ic_close.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/drawable/ic_link.xml" value="0.20871794871794871" />
         <entry key="app/src/main/res/drawable/ic_more.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/drawable/ic_upload.xml" value="0.21197916666666666" />
@@ -37,17 +38,23 @@
         <entry key="app/src/main/res/layout/activity_quiz_home.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_upload_question.xml" value="0.19583333333333333" />
+        <entry key="app/src/main/res/layout/activity_view_result.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/card_quiz_home.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/dialog_join_quiz.xml" value="0.1675925925925926" />
         <entry key="app/src/main/res/layout/dialog_quiz_fab.xml" value="0.19583333333333333" />
+        <entry key="app/src/main/res/layout/fragment_analysis_mcq.xml" value="0.19583333333333333" />
+        <entry key="app/src/main/res/layout/fragment_analysis_true_false.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/fragment_mcq.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/fragment_participants.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/layout/fragment_quiz_completed_home.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/fragment_quiz_home.xml" value="0.19282051282051282" />
+        <entry key="app/src/main/res/layout/fragment_result_mcq.xml" value="0.19583333333333333" />
+        <entry key="app/src/main/res/layout/fragment_result_true_false.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/fragment_true_false.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/q_created_dialog.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/menu_teacher.xml" value="0.19583333333333333" />
       </map>
     </option>
   </component>

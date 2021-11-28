@@ -5,4 +5,5 @@
     <string name="forget_password"><u>Forget Password</u></string>
     <string name="download_file_format"><u>Download File Format</u></string>
     <string name="note"><b>Note :</b> Press above button to download an excel sheet and put the questions with respective ans and options in that sheet. To see an example <u>click here</u></string>
+    <string name="show_explanation"><u>Show Explanation</u></string>
 </resources>

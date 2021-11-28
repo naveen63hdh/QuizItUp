@@ -104,7 +104,7 @@ public class McqFragment extends Fragment implements View.OnClickListener {
         radioOp5.setOnClickListener(this);
         radioOp6.setOnClickListener(this);
 
-        progressDialog = ProgressDialog.show(getContext(), "Please Wait", "Loading your message");
+        progressDialog = ProgressDialog.show(getContext(), "Please Wait", "Loading your question");
 
         auth = FirebaseAuth.getInstance();
         String uid = auth.getUid();

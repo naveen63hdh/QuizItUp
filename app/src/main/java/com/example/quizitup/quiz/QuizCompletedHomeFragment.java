@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quizitup.R;
+import com.example.quizitup.view_result.ViewResultActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -81,6 +83,11 @@ public class QuizCompletedHomeFragment extends Fragment {
                         score_type = Integer.parseInt(snapshot.child("Score Type").getValue().toString());
                         if (score_type == 0)
                             Toast.makeText(getContext(), "Answers are not released yet ", Toast.LENGTH_SHORT).show();
+                        else {
+                            Intent intent = new Intent(getContext(), ViewResultActivity.class);
+                            intent.putExtra("code",code);
+                            startActivity(intent);
+                        }
 
                     }
 

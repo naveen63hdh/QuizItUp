@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="30dp"
     android:paddingVertical="20dp"
-    tools:context=".question.McqFragment">
+    tools:context=".view_result.fragments.ResultTrueFalseFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -24,92 +24,88 @@
                 <TextView
                     android:id="@+id/question_no"
                     android:layout_width="wrap_content"
-                    android:textColor="@color/black"
                     android:layout_height="wrap_content"
-
+                    android:textColor="@color/black"
                     android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
                     android:layout_marginTop="15dp"
-
+                    android:textColor="@color/black"
                     android:textSize="30sp" />
 
-                <RadioGroup
-                    android:id="@+id/radio_group"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <RadioButton
-                        android:id="@+id/op1"
-                        android:layout_width="match_parent"
-                        android:textColor="@color/black"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:paddingStart="20dp"
-                        android:buttonTint="@color/purple"
-                        />
+                <ImageView
+                    android:id="@+id/true_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_close" />
+
 
                     <RadioButton
-                        android:id="@+id/op2"
+                        android:id="@+id/option_true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
                         android:layout_marginTop="10dp"
+                        android:layout_toStartOf="@id/true_img"
                         android:buttonTint="@color/purple"
+                        android:enabled="false"
                         android:paddingStart="20dp"
-                         />
+                        android:text="True"
+                        android:textColor="@color/black" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/false_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_close" />
+
 
                     <RadioButton
-                        android:id="@+id/op3"
+                        android:id="@+id/option_false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
                         android:layout_marginTop="10dp"
+                        android:layout_toStartOf="@id/false_img"
                         android:buttonTint="@color/purple"
+                        android:enabled="false"
                         android:paddingStart="20dp"
-                        />
+                        android:text="False"
+                        android:textColor="@color/black" />
 
-                    <RadioButton
-                        android:id="@+id/op4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:layout_marginTop="10dp"
-                        android:buttonTint="@color/purple"
-                        android:paddingStart="20dp"
-                        />
+                </RelativeLayout>
 
-                    <RadioButton
-                        android:id="@+id/op5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:layout_marginTop="10dp"
-                        android:buttonTint="@color/purple"
-                        android:paddingStart="20dp"
-                        />
+                <TextView
+                    android:id="@+id/showExplanation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/show_explanation"
+                    android:textColor="@color/purple"
+                    android:textSize="18sp" />
 
-                    <RadioButton
-                        android:id="@+id/op6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:layout_marginTop="10dp"
-                        android:buttonTint="@color/purple"
-                        android:paddingStart="20dp"
-                        />
-
-                </RadioGroup>
 
             </LinearLayout>
 
-
         </RelativeLayout>
-
 
     </androidx.core.widget.NestedScrollView>
 
@@ -124,21 +120,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:backgroundTint="@color/purple"
             android:background="@color/purple"
-            android:textColor="@color/white"
-            android:text="Previous" />
+            android:backgroundTint="@color/purple"
+            android:text="Previous"
+            android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/next_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/purple"
-            android:textColor="@color/white"
-            android:background="@color/purple"
             android:layout_alignParentEnd="true"
-            android:text="Next" />
-
+            android:background="@color/purple"
+            android:backgroundTint="@color/purple"
+            android:text="Next"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 

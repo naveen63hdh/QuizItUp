@@ -6,12 +6,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.quizitup.LoginAdapter;
 import com.example.quizitup.R;
+import com.example.quizitup.view_analysis.ViewAnalysisActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -169,5 +174,23 @@ public class QuizHomeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (!isStudent && statusCode==4) {
+            getMenuInflater().inflate(R.menu.menu_teacher,menu);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }@Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id==R.id.download) {
+
+        } else if (id == R.id.analysis) {
+            Intent intent = new Intent(this, ViewAnalysisActivity.class);
+            intent.putExtra("code",quizCode);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

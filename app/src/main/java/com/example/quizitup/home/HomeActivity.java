@@ -162,7 +162,8 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private int updateStatus(int status_code, String quiz_date, String startTime, String endTime, String endJoinTime) {
+    private int updateStatus(int status_code, String quiz_date, String startTime, String endTime, String
+            Time) {
         Calendar c = Calendar.getInstance();
         Date today = c.getTime();
         today = decodeToDate(encodeDate(today));
@@ -178,7 +179,7 @@ public class HomeActivity extends AppCompatActivity {
             now = timeFormat.parse(time);
             start = timeFormat.parse(startTime);
             end = timeFormat.parse(endTime);
-            endJoin = timeFormat.parse(endJoinTime);
+//            endJoin = timeFormat.parse(endJoinTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -84,7 +84,7 @@ public class TrueFalseFragment extends Fragment {
         trueRadio = view.findViewById(R.id.option_true);
         falseRadio = view.findViewById(R.id.option_false);
 
-        progressDialog = ProgressDialog.show(getContext(), "Please Wait", "Loading your message");
+        progressDialog = ProgressDialog.show(getContext(), "Please Wait", "Loading your question");
 
 
         auth = FirebaseAuth.getInstance();
