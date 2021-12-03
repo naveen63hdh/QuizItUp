@@ -12,8 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.quizitup.question.QuestionModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +37,7 @@ public class DialogJoinQuiz  extends Dialog {
     Button joinBtn,cancelBtn;
     FirebaseDatabase database;
     FirebaseAuth auth;
-    String uid, date,uname;
+    String uid, date,uname, email_id;
     DatabaseReference reference,participantRef;
 
     HashMap<String, QuestionModel> questions;
@@ -62,6 +64,7 @@ public class DialogJoinQuiz  extends Dialog {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 uname = snapshot.child("Name").getValue().toString();
+                email_id = snapshot.child("Email").getValue().toString();
             }
 
             @Override
@@ -113,22 +116,43 @@ public class DialogJoinQuiz  extends Dialog {
 //                                            reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("quiz name").setValue(quiz);
 //                                            reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("total").setValue(total);
 //                                            reference.child("Users").child(uid).child("Quiz").child(date).child(code).child("Score").setValue(0);
-                                            participantRef.child(code).child("Participants").child(uid).child("Name").setValue(uname);
-                                            participantRef.child(code).child("Participants").child(uid).child("score").setValue(0);
-                                            participantRef.child(code).child("Participants").child(uid).child("isCompleted").setValue(0);
 
-                                            reference.child("Users").child(uid).child("Quiz").child(date).child(code).setValue(questions).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            HashMap<String, Object> participantTree = new HashMap<>();
+                                            participantTree.put("Name",uname);
+                                            participantTree.put("Email",email_id);
+                                            participantTree.put("score",0);
+                                            participantTree.put("isCompleted",0);
+
+                                            participantRef.child(code).child("Participants").child(uid).setValue(participantTree).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
-                                                public void onSuccess(Void unused) {
-                                                    progressDialog.dismiss();
-                                                    Toast.makeText(getContext(), "Joined Successfully", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(getContext(), "Error Occurred", Toast.LENGTH_SHORT).show();
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        reference.child("Users").child(uid).child("Quiz").child(date).child(code).setValue(questions).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                progressDialog.dismiss();
+                                                                Toast.makeText(getContext(), "Joined Successfully", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Toast.makeText(getContext(), "Error Occurred", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+
+
+                                                    } else {
+                                                        progressDialog.dismiss();
+                                                        Toast.makeText(getContext(), "Cannot Join Deadline ended", Toast.LENGTH_SHORT).show();
+
+                                                    }
                                                 }
                                             });
+
+//                                            participantRef.child(code).child("Participants").child(uid).child("Name").setValue(uname);
+//                                            participantRef.child(code).child("Participants").child(uid).child("Email").setValue(email_id);
+//                                            participantRef.child(code).child("Participants").child(uid).child("score").setValue(0);
+//                                            participantRef.child(code).child("Participants").child(uid).child("isCompleted").setValue(0);
 
 
                                         }

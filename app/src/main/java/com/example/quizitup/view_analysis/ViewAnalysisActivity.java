@@ -138,7 +138,7 @@ public class ViewAnalysisActivity extends AppCompatActivity {
                         int qno = Integer.parseInt(ansSnap.getKey());
                         int[] myOptionInt = ansCountMap.get(qno);
 //                        Get choice of specific question
-                        if (ansSnap.child("choice").getValue()!=null) {
+                        if (!ansSnap.child("choice").getValue().toString().equals("NULL")) {
                             String ch = ansSnap.child("choice").getValue().toString();
                             int in = questionIndex.get(qno);
 //                        Check and increment which ans user has given
@@ -172,12 +172,12 @@ public class ViewAnalysisActivity extends AppCompatActivity {
                 }
 
 
-                for (int i = 1;i<=6;i++) {
-                    Log.i("ANS_MAP","size = "+ansCountMap.size());
-                    int[] ans = ansCountMap.get(i);
-                    for (int j = 0;j<7;j++)
-                        Log.i("ANS_MAP"+"Q"+i," = "+ans[j]);
-                }
+//                for (int i = 1;i<=6;i++) {
+//                    Log.i("ANS_MAP","size = "+ansCountMap.size());
+//                    int[] ans = ansCountMap.get(i);
+//                    for (int j = 0;j<7;j++)
+//                        Log.i("ANS_MAP"+"Q"+i," = "+ans[j]);
+//                }
 
 //                Populate Analysis Model
                 for (DataSnapshot questionSnap : snapshot.child("Question").getChildren()) {
@@ -186,13 +186,30 @@ public class ViewAnalysisActivity extends AppCompatActivity {
                     int in = questionIndex.get(qno.intValue());
                     QuestionModel qmodel = questionList.get(in);
                     int[] ans = ansCountMap.get(qno.intValue());
-                    double pnone = (ans[0] / participantCount) * 100;
-                    double p1 = (ans[1] / participantCount) * 100;
-                    double p2 = (ans[2] / participantCount) * 100;
-                    double p3 = (ans[3] / participantCount) * 100;
-                    double p4 = (ans[4] / participantCount) * 100;
-                    double p5 = (ans[5] / participantCount) * 100;
-                    double p6 = (ans[6] / participantCount) * 100;
+                    double pnone = (double) ans[0] / participantCount;
+                    double p1 = (double)  ans[1] / participantCount;
+                    double p2 = (double)  ans[2] / participantCount;
+                    double p3 = (double)  ans[3] / participantCount;
+                    double p4 = (double)  ans[4] / participantCount;
+                    double p5 = (double)  ans[5] / participantCount;
+                    double p6 = (double)  ans[6] / participantCount;
+
+                    pnone = pnone * 100;
+                    p1 = p1 * 100;
+                    p2 = p2 * 100;
+                    p3 = p3 * 100;
+                    p4 = p4 * 100;
+                    p5 = p5 * 100;
+                    p6 = p6 * 100;
+
+                    Log.i("ANS_MAP_1",+ans[0]+"size = "+(double)ans[0]/participantCount);
+                    Log.i("ANS_MAP_2",+ans[1]+"size = "+(double)ans[1]/participantCount);
+                    Log.i("ANS_MAP_3",+ans[2]+"size = "+(double)ans[2]/participantCount);
+                    Log.i("ANS_MAP_4",+ans[3]+"size = "+(double)ans[3]/participantCount);
+                    Log.i("ANS_MAP_5",+ans[4]+"size = "+(double)ans[4]/participantCount);
+                    Log.i("ANS_MAP_6",+ans[5]+"size = "+(double)ans[5]/participantCount);
+                    Log.i("ANS_MAP_6","Count = "+participantCount);
+
                     Analysis analysis = new Analysis(p1,p2,p3,p4,p5,p6,pnone,qmodel);
                     analysisList.add(analysis);
                 }
