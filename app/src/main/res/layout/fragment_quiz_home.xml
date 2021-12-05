@@ -52,37 +52,91 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/general"
+            <LinearLayout
+                android:id="@+id/timeLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:layout_below="@+id/layout"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:textSize="18sp"
-                android:text="General Instructions :"
-                android:textColor="@color/black" />
+                android:layout_centerHorizontal="true"
+                android:paddingHorizontal="20dp">
 
-            <TextView
-                android:id="@+id/general_instruction"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:text="Time : " />
+
+                <TextView
+                    android:id="@+id/quizTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dateLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/general"
-                android:textSize="18sp"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="10dp"
-                android:text="Once test has been started you cannot exit the screen. In case if u exit then it will be considered malpractice. So make sure you have quality internet connection. And it is prefred to put mobile in DND  before starting the quiz."
-                android:textColor="@color/black" />
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/timeLayout"
+                android:layout_centerHorizontal="true"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:text="Date : " />
+
+                <TextView
+                    android:id="@+id/quizDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+<!--            <TextView-->
+<!--                android:id="@+id/general"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/layout"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:textSize="18sp"-->
+<!--                android:text="General Instructions :"-->
+<!--                android:textColor="@color/black" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/general_instruction"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/general"-->
+<!--                android:layout_marginHorizontal="30dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:text="Once test has been started you cannot exit the screen. In case if u exit then it will be considered malpractice. So make sure you have quality internet connection. And it is prefred to put mobile in DND  before starting the quiz."-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="18sp" />-->
 
             <TextView
                 android:id="@+id/specific"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/general_instruction"
+                android:layout_below="@+id/dateLayout"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:textSize="18sp"
-                android:text="Specific Instruction by teacher :"
+                android:text="Quiz Description :"
                 android:textColor="@color/black" />
 
 

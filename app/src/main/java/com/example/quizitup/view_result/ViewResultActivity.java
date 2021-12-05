@@ -60,14 +60,15 @@ public class ViewResultActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         quizRef = database.getReference().child("Quiz").child(quizCode);
         userRef = database.getReference().child("Users").child(uid).child("Quiz");
+
+        dialog = ProgressDialog.show(this,"Please wait","Loading your result");
+        resultList = new ArrayList<>();
+        populateDataset();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        dialog = ProgressDialog.show(this,"Please wait","Loading your result");
-        resultList = new ArrayList<>();
-        populateDataset();
     }
 
     private void populateDataset() {

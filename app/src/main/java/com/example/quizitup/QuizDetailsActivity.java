@@ -34,8 +34,8 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
 
     Button submitBtn;
 
-    EditText dateTxt, startTimeTxt, endTimeTxt, endJoinTimeTxt,quizNameTxt,descriptionTxt;
-    ImageButton dateBtn, startTimeBtn, endTimeBtn, endJoinTimeBtn;
+    EditText dateTxt, startTimeTxt, endTimeTxt,quizNameTxt,descriptionTxt;
+    ImageButton dateBtn, startTimeBtn, endTimeBtn;
 
     SwitchCompat switchCompat;
 
@@ -59,11 +59,11 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
         dateTxt = findViewById(R.id.date_txt);
         startTimeTxt = findViewById(R.id.start_time_txt);
         endTimeTxt = findViewById(R.id.end_time_txt);
-        endJoinTimeTxt = findViewById(R.id.end_joining_txt);
+//        endJoinTimeTxt = findViewById(R.id.end_joining_txt);
         dateBtn = findViewById(R.id.date_btn);
         startTimeBtn = findViewById(R.id.start_time_btn);
         endTimeBtn = findViewById(R.id.end_time_btn);
-        endJoinTimeBtn = findViewById(R.id.end_joining_btn);
+//        endJoinTimeBtn = findViewById(R.id.end_joining_btn);
 
         quizCode = getIntent().getStringExtra("code");
         total = getIntent().getDoubleExtra("total",0.0);
@@ -77,7 +77,7 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
         dateBtn.setOnClickListener(this);
         startTimeBtn.setOnClickListener(this);
         endTimeBtn.setOnClickListener(this);
-        endJoinTimeBtn.setOnClickListener(this);
+//        endJoinTimeBtn.setOnClickListener(this);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String uid = auth.getCurrentUser().getUid();
@@ -103,7 +103,7 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
                 quizRef.child(quizCode).child("Date").setValue(dateTxt.getText().toString());
                 quizRef.child(quizCode).child("Start Time").setValue(startTimeTxt.getText().toString());
                 quizRef.child(quizCode).child("End Time").setValue(endTimeTxt.getText().toString());
-                quizRef.child(quizCode).child("End Joining Time").setValue(endJoinTimeTxt.getText().toString());
+//                quizRef.child(quizCode).child("End Joining Time").setValue(endJoinTimeTxt.getText().toString());
                 quizRef.child(quizCode).child("Description").setValue(descriptionTxt.getText().toString());
                 quizRef.child(quizCode).child("Created by").setValue(uid);
                 quizRef.child(quizCode).child("Status").setValue(1);
@@ -205,37 +205,38 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
                         }
                     }, mHour, mMinute, false);
             timePickerDialog.show();
-        } else if (v == endJoinTimeBtn) {
-            // Get Current Time
-            final Calendar c = Calendar.getInstance();
-            mHour = c.get(Calendar.HOUR_OF_DAY);
-            mMinute = c.get(Calendar.MINUTE);
-
-            // Launch Time Picker Dialog
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                    new TimePickerDialog.OnTimeSetListener() {
-
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay,
-                                              int minute) {
-                            int hour = hourOfDay;
-                            String timeset = "";
-                            if (hour > 12) {
-                                hour -= 12;
-                                timeset = "PM";
-                            } else if (hour == 0) {
-                                hour += 12;
-                                timeset = "AM";
-                            } else if (hour == 12)
-                                timeset = "PM";
-                            else
-                                timeset = "AM";
-
-
-                            endJoinTimeTxt.setText(hour + ":" + minute + " " + timeset);
-                        }
-                    }, mHour, mMinute, false);
-            timePickerDialog.show();
         }
+//        else if (v == endJoinTimeBtn) {
+//            // Get Current Time
+//            final Calendar c = Calendar.getInstance();
+//            mHour = c.get(Calendar.HOUR_OF_DAY);
+//            mMinute = c.get(Calendar.MINUTE);
+//
+//            // Launch Time Picker Dialog
+//            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+//                    new TimePickerDialog.OnTimeSetListener() {
+//
+//                        @Override
+//                        public void onTimeSet(TimePicker view, int hourOfDay,
+//                                              int minute) {
+//                            int hour = hourOfDay;
+//                            String timeset = "";
+//                            if (hour > 12) {
+//                                hour -= 12;
+//                                timeset = "PM";
+//                            } else if (hour == 0) {
+//                                hour += 12;
+//                                timeset = "AM";
+//                            } else if (hour == 12)
+//                                timeset = "PM";
+//                            else
+//                                timeset = "AM";
+//
+//
+//                            endJoinTimeTxt.setText(hour + ":" + minute + " " + timeset);
+//                        }
+//                    }, mHour, mMinute, false);
+//            timePickerDialog.show();
+//        }
     }
 }

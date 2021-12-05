@@ -44,6 +44,7 @@ public class QuizHomeFragment extends Fragment {
     Button startQuiz;
     ImageButton cpyBtn;
     TextView nameTxt, codeTxt, instructionTxt;
+    TextView timeTxt,dateTxt;
 
     FirebaseDatabase database;
     DatabaseReference quizRef;
@@ -73,6 +74,8 @@ public class QuizHomeFragment extends Fragment {
         codeTxt = view.findViewById(R.id.quiz_code);
         instructionTxt = view.findViewById(R.id.specific_instruction);
         cpyBtn = view.findViewById(R.id.copy_btn);
+        timeTxt = view.findViewById(R.id.quizTime);
+        dateTxt = view.findViewById(R.id.quizDate);
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -197,6 +200,8 @@ public class QuizHomeFragment extends Fragment {
                 String code = snapshot.getKey();
                 String name = snapshot.child("quiz name").getValue().toString();
                 String ins = snapshot.child("Description").getValue().toString();
+                String date = snapshot.child("Date").getValue().toString();
+                String startTime = snapshot.child("Start Time").getValue().toString();
                 String endTime = snapshot.child("End Time").getValue().toString();
 //                String endJoinTime = snapshot.child("End Joining Time").getValue().toString();
                 int status_code = Integer.parseInt(snapshot.child("Status").getValue().toString());
@@ -225,6 +230,9 @@ public class QuizHomeFragment extends Fragment {
                 nameTxt.setText(name);
                 codeTxt.setText(code);
                 instructionTxt.setText(ins);
+                String time = startTime+" - "+endTime;
+                timeTxt.setText(time);
+                dateTxt.setText(date);
                 progressDialog.dismiss();
             }
 

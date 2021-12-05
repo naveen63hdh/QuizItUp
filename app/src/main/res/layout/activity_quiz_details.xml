@@ -139,43 +139,43 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:orientation="horizontal">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="End \nJoining Time :"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:text="End \nJoining Time :"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="18sp" />-->
 
-            <EditText
-                android:id="@+id/end_joining_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:background="@drawable/editext_background"
-                android:ems="8"
-                android:enabled="false"
-                android:inputType="time"
-                android:hint="HH:MM AM"
-                android:padding="15dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black" />
+<!--            <EditText-->
+<!--                android:id="@+id/end_joining_txt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="15dp"-->
+<!--                android:background="@drawable/editext_background"-->
+<!--                android:ems="8"-->
+<!--                android:enabled="false"-->
+<!--                android:inputType="time"-->
+<!--                android:hint="HH:MM AM"-->
+<!--                android:padding="15dp"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textColorHint="@color/black" />-->
 
-            <ImageButton
-                android:id="@+id/end_joining_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="15dp"
-                android:background="@color/smoke_white"
-                android:src="@drawable/ic_clock" />
+<!--            <ImageButton-->
+<!--                android:id="@+id/end_joining_btn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginStart="15dp"-->
+<!--                android:background="@color/smoke_white"-->
+<!--                android:src="@drawable/ic_clock" />-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"

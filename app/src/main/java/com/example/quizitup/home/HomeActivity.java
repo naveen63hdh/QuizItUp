@@ -7,15 +7,20 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.quizitup.R;
+import com.example.quizitup.SplashActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -107,6 +112,26 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_refresh,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId()==R.id.refresh) {
+            onResume();
+            return true;
+        } else if(item.getItemId()==R.id.signout) {
+            auth.signOut();
+            Intent i = new Intent(HomeActivity.this, SplashActivity.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void populateRecycler() {
 
         userReference.child(uid).child("Quiz").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -123,13 +148,13 @@ public class HomeActivity extends AppCompatActivity {
                             quizReference.child(code).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot quiz_snapshot) {
-                                    String name, startTime, endTime, endJoinTime, status, created_by;
+                                    String name, startTime, endTime, status, created_by;
                                     boolean isStudent;
                                     int status_code;
                                     name = quiz_snapshot.child("quiz name").getValue().toString();
                                     startTime = quiz_snapshot.child("Start Time").getValue().toString();
                                     endTime = quiz_snapshot.child("End Time").getValue().toString();
-                                    endJoinTime = quiz_snapshot.child("End Joining Time").getValue().toString();
+//                                    endJoinTime = quiz_snapshot.child("End Joining Time").getValue().toString();
                                     status_code = Integer.parseInt(quiz_snapshot.child("Status").getValue().toString());
                                     created_by = quiz_snapshot.child("Created by").getValue().toString();
                                     if (created_by.equals(uid))
@@ -137,7 +162,7 @@ public class HomeActivity extends AppCompatActivity {
                                     else
                                         isStudent = true;
                                     String quiz_date = decodeDate(date);
-                                    status_code = updateStatus(status_code, quiz_date, startTime, endTime, endJoinTime);
+                                    status_code = updateStatus(status_code, quiz_date, startTime, endTime);
                                     quizReference.child(code).child("Status").setValue(status_code);
                                     status = status_map.get(status_code);
                                     quizHomeModels.add(new QuizHomeModel(isStudent, name, code, startTime, endTime, quiz_date, status, status_code));
@@ -162,8 +187,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private int updateStatus(int status_code, String quiz_date, String startTime, String endTime, String
-            Time) {
+    private int updateStatus(int status_code, String quiz_date, String startTime, String endTime) {
         Calendar c = Calendar.getInstance();
         Date today = c.getTime();
         today = decodeToDate(encodeDate(today));

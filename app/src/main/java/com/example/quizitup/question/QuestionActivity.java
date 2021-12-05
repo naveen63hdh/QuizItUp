@@ -68,6 +68,10 @@ public class QuestionActivity extends AppCompatActivity {
         quizRef = database.getReference("Quiz").child(quiz_code);
         questionRef = database.getReference("Quiz").child(quiz_code).child("Question");
 
+        progressDialog = ProgressDialog.show(this,"Please Wait","Loading your questions");
+        updateStatus();
+        questionList = new ArrayList<>();
+
         // Check Storage Permission
         //checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
 //        readExcelFileFromAssets();
@@ -78,9 +82,6 @@ public class QuestionActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        progressDialog = ProgressDialog.show(this,"Please Wait","Loading your questions");
-        updateStatus();
-        questionList = new ArrayList<>();
 //        populateDataset();
     }
 

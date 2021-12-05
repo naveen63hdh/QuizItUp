@@ -29,11 +29,11 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent i;
-//                if (auth != null) {
-//                    i = new Intent(SplashActivity.this, HomeActivity.class);
-//                } else {
+                if (auth.getUid() != null) {
+                    i = new Intent(SplashActivity.this, HomeActivity.class);
+                } else {
                     i = new Intent(SplashActivity.this, LoginActivity.class);
-//                }
+                }
                 startActivity(i);
                 finish();
             }

@@ -54,6 +54,7 @@
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/fragment_true_false.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/layout/q_created_dialog.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/menu_refresh.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/menu/menu_teacher.xml" value="0.19583333333333333" />
       </map>
     </option>

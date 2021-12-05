@@ -339,42 +339,54 @@ public class McqFragment extends Fragment implements View.OnClickListener {
         int no = q.getQno().intValue();
         qno.setText("Q" + no);
         questionText.setText(q.getQuestion());
-        String op = q.getOp1();
+        ArrayList<String> options = new ArrayList<>();
+        options.add(q.getOp1());
+        options.add(q.getOp2());
+        options.add(q.getOp3());
+        options.add(q.getOp4());
+        options.add(q.getOp5());
+        options.add(q.getOp6());
+
+        if (q.getShuffle().equalsIgnoreCase("yes")) {
+            Collections.shuffle(options);
+        }
+
+        String op = options.get(0);
         if (op.equals("NA")) {
             radioOp1.setVisibility(View.GONE);
         } else {
             radioOp1.setText(op);
         }
 
-        op = q.getOp2();
+        op = options.get(1);
         if (op.equals("NA")) {
             radioOp2.setVisibility(View.GONE);
         } else {
             radioOp2.setText(op);
         }
 
-        op = q.getOp3();
+        op = options.get(2);
         if (op.equals("NA")) {
             radioOp3.setVisibility(View.GONE);
         } else {
             radioOp3.setText(op);
         }
 
-        op = q.getOp4();
+        op = options.get(3);
         if (op.equals("NA")) {
             radioOp4.setVisibility(View.GONE);
         } else {
             radioOp4.setText(op);
         }
 
-        op = q.getOp5();
+        op = options.get(4);
         if (op.equals("NA")) {
             radioOp5.setVisibility(View.GONE);
         } else {
             radioOp5.setText(op);
         }
 
-        op = q.getOp6();
+        op = options.get(5);
         if (op.equals("NA")) {
             radioOp6.setVisibility(View.GONE);
         } else {
@@ -386,17 +398,17 @@ public class McqFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String choice = snapshot.child("choice").getValue().toString();
                 if (!choice.equals("NULL")) {
-                    if (choice.equals(questions.get(position).getOp1()))
+                    if (choice.equals(radioOp1.getText().toString()))
                         radioOp1.setChecked(true);
-                    else if (choice.equals(questions.get(position).getOp2()))
+                    else if (choice.equals(radioOp2.getText().toString()))
                         radioOp2.setChecked(true);
-                    else if (choice.equals(questions.get(position).getOp3()))
+                    else if (choice.equals(radioOp3.getText().toString()))
                         radioOp3.setChecked(true);
-                    else if (choice.equals(questions.get(position).getOp4()))
+                    else if (choice.equals(radioOp4.getText().toString()))
                         radioOp4.setChecked(true);
-                    else if (choice.equals(questions.get(position).getOp5()))
+                    else if (choice.equals(radioOp5.getText().toString()))
                         radioOp5.setChecked(true);
-                    else if (choice.equals(questions.get(position).getOp6()))
+                    else if (choice.equals(radioOp6.getText().toString()))
                         radioOp6.setChecked(true);
                 }
                 progressDialog.dismiss();

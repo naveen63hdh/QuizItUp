@@ -91,11 +91,11 @@ public class DialogJoinQuiz  extends Dialog {
                             date = snapshot.child("Date").getValue().toString();
                             String start_time = snapshot.child("Start Time").getValue().toString();
                             String end_time = snapshot.child("End Time").getValue().toString();
-                            String end_join_time = snapshot.child("End Joining Time").getValue().toString();
+//                            String end_join_time = snapshot.child("End Joining Time").getValue().toString();
                             int status_code = Integer.parseInt(snapshot.child("Status").getValue().toString());
                             Double total  = Double.valueOf(snapshot.child("total").getValue().toString());
 
-                            status_code = updateStatus(status_code,date,start_time,end_time,end_join_time);
+                            status_code = updateStatus(status_code,date,start_time,end_time);
                             reference.child("Quiz").child(code).child("Status").setValue(status_code);
 
                             date = encodeDate(date);
@@ -221,7 +221,7 @@ public class DialogJoinQuiz  extends Dialog {
         String d = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(date);
         return d;
     }
-    private int updateStatus(int status_code, String quiz_date, String startTime, String endTime, String endJoinTime) {
+    private int updateStatus(int status_code, String quiz_date, String startTime, String endTime) {
         Calendar c = Calendar.getInstance();
         Date today = c.getTime();
         today = decodeToDate(encodeDate(today));
@@ -237,7 +237,7 @@ public class DialogJoinQuiz  extends Dialog {
             now = timeFormat.parse(time);
             start = timeFormat.parse(startTime);
             end = timeFormat.parse(endTime);
-            endJoin = timeFormat.parse(endJoinTime);
+//            endJoin = timeFormat.parse(endJoinTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
