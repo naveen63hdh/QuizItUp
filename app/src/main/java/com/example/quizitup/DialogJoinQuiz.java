@@ -100,7 +100,7 @@ public class DialogJoinQuiz  extends Dialog {
 
                             date = encodeDate(date);
 
-                            if (status_code<3) {
+                            if (status_code<2) {
                                 downloadQuestions(snapshot);
 
 
