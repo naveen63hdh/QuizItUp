@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuizItUp">
         <activity
+            android:name=".classroom.AddClassroomActivity"
+            android:exported="false" />
+        <activity
             android:name=".view_analysis.ViewAnalysisActivity"
             android:exported="false" />
         <activity
