@@ -20,9 +20,17 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.QuizViewHolder
 
     ArrayList<QuizHomeModel> quizHomeModels;
     Context context;
+    String classId;
+
     public HomeAdapter(ArrayList<QuizHomeModel> quizHomeModels, Context context) {
         this.quizHomeModels = quizHomeModels;
         this.context = context;
+    }
+
+    public HomeAdapter(String classId,ArrayList<QuizHomeModel> quizHomeModels, Context context) {
+        this.quizHomeModels = quizHomeModels;
+        this.context = context;
+        this.classId = classId;
     }
 
     @NonNull
@@ -51,12 +59,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.QuizViewHolder
                 Intent intent;
 //                switch (holder.getAdapterPosition()) {
 //                    case 0:
-                        intent = new Intent(context, QuizHomeActivity.class);
-                        intent.putExtra("code",quizHomeModels.get(pos).getQuizCode());
-                        intent.putExtra("date",quizHomeModels.get(pos).getqDate());
-                        intent.putExtra("status",quizHomeModels.get(pos).getStatusCode());
-                        intent.putExtra("isStudent",quizHomeModels.get(pos).isStudent());
-                        context.startActivity(intent);
+                intent = new Intent(context, QuizHomeActivity.class);
+                intent.putExtra("code", quizHomeModels.get(pos).getQuizCode());
+                intent.putExtra("classId", classId);
+                intent.putExtra("date", quizHomeModels.get(pos).getqDate());
+                intent.putExtra("status", quizHomeModels.get(pos).getStatusCode());
+                intent.putExtra("isStudent", quizHomeModels.get(pos).isStudent());
+                context.startActivity(intent);
 //                        break;
 //                    case 1:
 //                        intent = new Intent(context, QuizHomeActivity.class);
@@ -67,7 +76,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.QuizViewHolder
             }
         });
         holder.nameTxt.setText(quizHomeModels.get(position).getQuizName());
-        String time = quizHomeModels.get(position).getStartTime()+" - "+quizHomeModels.get(position).getEndTime();
+        String time = quizHomeModels.get(position).getStartTime() + " - " + quizHomeModels.get(position).getEndTime();
         holder.timeTxt.setText(time);
         holder.dateTxt.setText(quizHomeModels.get(position).getqDate());
         holder.statusTxt.setText(quizHomeModels.get(position).getqStatus());
@@ -80,10 +89,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.QuizViewHolder
 
     static class QuizViewHolder extends RecyclerView.ViewHolder {
         LinearLayout llayout;
-        TextView nameTxt,timeTxt,dateTxt,statusTxt;
+        TextView nameTxt, timeTxt, dateTxt, statusTxt;
+
         public QuizViewHolder(@NonNull View itemView) {
             super(itemView);
-            llayout= itemView.findViewById(R.id.linear_layout);
+            llayout = itemView.findViewById(R.id.linear_layout);
             nameTxt = itemView.findViewById(R.id.quizName);
             timeTxt = itemView.findViewById(R.id.quizTime);
             dateTxt = itemView.findViewById(R.id.quizDate);

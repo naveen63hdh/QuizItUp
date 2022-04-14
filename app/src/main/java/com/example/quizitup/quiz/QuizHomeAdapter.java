@@ -14,14 +14,15 @@ import com.example.quizitup.SignUpFragment;
 public class QuizHomeAdapter  extends FragmentStateAdapter {
 
     boolean isStudent;
-    String code;
+    String code,classId;
     int status,isCompleted;
-    public QuizHomeAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle,int status,boolean isStudent,String code,int isCompleted) {
+    public QuizHomeAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle,int status,boolean isStudent,String code,int isCompleted,String classId) {
         super(fragmentManager, lifecycle);
         this.status = status;
         this.isStudent = isStudent;
         this.isCompleted = isCompleted;
         this.code = code;
+        this.classId = classId;
     }
 
     @NonNull
@@ -32,7 +33,7 @@ public class QuizHomeAdapter  extends FragmentStateAdapter {
         else {
             if((status==4 || isCompleted==1) && isStudent)
                 return new QuizCompletedHomeFragment(code);
-            return new QuizHomeFragment(code,isStudent);
+            return new QuizHomeFragment(code,isStudent,classId);
         }
     }
 

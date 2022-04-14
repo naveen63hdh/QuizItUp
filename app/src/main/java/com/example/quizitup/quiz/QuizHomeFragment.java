@@ -50,12 +50,13 @@ public class QuizHomeFragment extends Fragment {
     DatabaseReference quizRef;
     FirebaseAuth auth;
 
-    String code;
+    String code,classId;
     boolean isStudent;
 
-    public QuizHomeFragment(String code, boolean isStudent) {
+    public QuizHomeFragment(String code, boolean isStudent,String classId) {
         this.code = code;
         this.isStudent = isStudent;
+        this.classId = classId;
         // Required empty public constructor
     }
 

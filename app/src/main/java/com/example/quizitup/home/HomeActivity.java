@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+//TODO Delete Later
 public class HomeActivity extends AppCompatActivity {
 
     FloatingActionButton moreFab;

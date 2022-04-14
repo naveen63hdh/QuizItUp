@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!--    <item android:id="@+id/today"-->
+<!--        android:icon="@drawable/ic_today"-->
+<!--        android:title="Today"-->
+<!--        />-->
+    <item android:id="@+id/all_quiz"
+        android:icon="@drawable/ic_all_quiz"
+        android:title="Quizzes"
+        />
+    <item android:id="@+id/participant"
+        android:icon="@drawable/ic_participant"
+        android:title="Participants"
+        />
+    <item android:id="@+id/result"
+        android:icon="@drawable/ic_result"
+        android:title="Result"
+        />
+</menu>

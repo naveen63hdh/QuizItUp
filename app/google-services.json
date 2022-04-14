@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "590281971607",
-    "firebase_url": "https://quizitup-af4dc-default-rtdb.firebaseio.com",
-    "project_id": "quizitup-af4dc",
-    "storage_bucket": "quizitup-af4dc.appspot.com"
+    "project_number": "129302676435",
+    "project_id": "quizitup-985c9",
+    "storage_bucket": "quizitup-985c9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:590281971607:android:f636e55668f7d5219156d2",
+        "mobilesdk_app_id": "1:129302676435:android:05305a4d9e323dadcb2526",
         "android_client_info": {
           "package_name": "com.example.quizitup"
         }
       },
       "oauth_client": [
         {
-          "client_id": "590281971607-dakgero4r3fgjsdndd42ngfc40aibjov.apps.googleusercontent.com",
+          "client_id": "129302676435-qe4hlte9rkvi2jpogfqnbmuk7c2s421g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCW7LMqVVzq2kMhEMR8xqnBtFrub8WhKyQ"
+          "current_key": "AIzaSyCxx9vF8KqIfkaPUZzVR1h0HvnkezZJdcQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "590281971607-dakgero4r3fgjsdndd42ngfc40aibjov.apps.googleusercontent.com",
+              "client_id": "129302676435-qe4hlte9rkvi2jpogfqnbmuk7c2s421g.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

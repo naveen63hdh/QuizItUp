@@ -3,6 +3,33 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/drawable/btn_background.xml" value="0.26614583333333336" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/drawable/card_background.xml" value="0.26614583333333336" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_abcd.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_add_classroom.xml" value="0.264" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_classroom_home.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_forget_password.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_join_classroom.xml" value="0.2359375" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_my_classroom.xml" value="0.2" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_question.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_quiz_details.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_quiz_home.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_upload_question.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/card_classroom.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/card_quiz_home.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/dialog_join_quiz.xml" value="0.12708333333333333" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/dialog_quiz_fab.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/fragment_participants2.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/fragment_quiz_home.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/fragment_quizzes.xml" value="0.12708333333333333" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/fragment_results.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/fragment_today.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/menu/bottom_menu.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/menu/course_menu.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/menu/menu_refresh.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/menu/menu_teacher.xml" value="0.25" />
         <entry key="..\:/Users/Muralidharan/Downloads/QuizItUp/app/src/main/res/drawable/tab_color_selector.xml" value="0.290625" />
         <entry key="..\:/Users/Muralidharan/Downloads/QuizItUp/app/src/main/res/layout/activity_home.xml" value="0.15670289855072464" />
         <entry key="..\:/Users/Muralidharan/Downloads/QuizItUp/app/src/main/res/layout/activity_login.xml" value="0.15670289855072464" />

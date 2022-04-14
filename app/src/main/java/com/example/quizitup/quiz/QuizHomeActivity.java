@@ -61,12 +61,12 @@ public class QuizHomeActivity extends AppCompatActivity {
     QuizHomeAdapter quizHomeAdapter;
 
     boolean isStudent;
-    String quizCode, date, uid;
+    String classId,quizCode, date, uid;
     int statusCode;
 
     FirebaseAuth auth;
     FirebaseDatabase database;
-    DatabaseReference quizRef, userRef;
+    DatabaseReference quizRef, userRef, classRef;
 
     ArrayList<ParticipantsAns> ansList;
     ProgressDialog progressDialog;
@@ -83,6 +83,7 @@ public class QuizHomeActivity extends AppCompatActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.purple)));
         actionBar.setTitle("Quiz-1");
 
+        classId = getIntent().getExtras().getString("classId");
         quizCode = getIntent().getExtras().getString("code");
         isStudent = getIntent().getExtras().getBoolean("isStudent");
         date = getIntent().getExtras().getString("date");
@@ -91,6 +92,7 @@ public class QuizHomeActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         uid = auth.getUid();
         database = FirebaseDatabase.getInstance();
+        classRef = database.getReference().child("Classrooms").child(classId).child("Quiz").child(quizCode);
         quizRef = database.getReference().child("Quiz").child(quizCode);
         userRef = database.getReference().child("Users");
 
@@ -107,6 +109,7 @@ public class QuizHomeActivity extends AppCompatActivity {
                 quizRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Log.i("TEST_TAG","NO ERRROR TILL NOW");
                         statusCode = Integer.parseInt(snapshot.child("Status").getValue().toString());
                         String endTime = snapshot.child("End Time").getValue().toString();
                         int isCompleted = 0;
@@ -128,7 +131,7 @@ public class QuizHomeActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-                        quizHomeAdapter = new QuizHomeAdapter(fm, getLifecycle(), statusCode, isStudent, quizCode, isCompleted);
+                        quizHomeAdapter = new QuizHomeAdapter(fm, getLifecycle(), statusCode, isStudent, quizCode, isCompleted,classId);
                         viewPager2.setAdapter(quizHomeAdapter);
                         viewPager2.setCurrentItem(tab.getPosition());
 
@@ -167,6 +170,7 @@ public class QuizHomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i("TEST_TAG","NO ERRROR TILL NOW");
         FragmentManager fm = getSupportFragmentManager();
         quizRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -192,7 +196,7 @@ public class QuizHomeActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                quizHomeAdapter = new QuizHomeAdapter(fm, getLifecycle(), statusCode, isStudent, quizCode, isCompleted);
+                quizHomeAdapter = new QuizHomeAdapter(fm, getLifecycle(), statusCode, isStudent, quizCode, isCompleted,classId);
                 viewPager2.setAdapter(quizHomeAdapter);
             }
 

@@ -5,7 +5,7 @@ public class QuizHomeModel {
     boolean isStudent;
     int statusCode;
 
-    QuizHomeModel(boolean isStudent,String quizName,String quizCode, String startTime, String endTime, String qDate,String qStatus,int statusCode) {
+    public QuizHomeModel(boolean isStudent,String quizName,String quizCode, String startTime, String endTime, String qDate,String qStatus,int statusCode) {
         this.quizName = quizName;
         this.quizCode = quizCode;
         this.startTime = startTime;

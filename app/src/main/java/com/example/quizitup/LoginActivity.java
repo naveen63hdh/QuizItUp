@@ -11,7 +11,6 @@ import android.view.View;
 import com.google.android.material.tabs.TabLayout;
 
 public class LoginActivity extends AppCompatActivity {
-
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     LoginAdapter loginAdapter;

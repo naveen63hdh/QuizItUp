@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quizitup.classroom.Home.ClassroomHomeActivity;
 import com.example.quizitup.home.HomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -140,7 +141,7 @@ public class SignInFragment extends Fragment {
                     getActivity().finish();
                     Intent intent
                             = new Intent(getContext(),
-                            HomeActivity.class);
+                            ClassroomHomeActivity.class);
                     startActivity(intent);
                 } else {
 

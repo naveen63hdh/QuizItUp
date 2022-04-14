@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/smoke_white"
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp"
+        tools:context=".classroom.JoinClassroom">
+
+        <EditText
+            android:id="@+id/classroomCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/editext_background"
+            android:hint="Course Code"
+            android:padding="15dp"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+
+        <Button
+            android:id="@+id/fetchQuiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Fetch Course"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/no_class_found"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Course Found"
+            android:textSize="18sp"
+            android:layout_marginTop="5dp"
+            android:textColor="#ff0000"
+
+            />
+
+        <EditText
+            android:id="@+id/usernameTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:enabled="false"
+            android:background="@drawable/editext_background"
+            android:hint="Enter your Username"
+            android:padding="15dp"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+
+        <Button
+            android:id="@+id/joinQuiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Join Course"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

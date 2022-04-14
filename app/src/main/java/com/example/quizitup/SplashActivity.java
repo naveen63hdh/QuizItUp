@@ -9,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.example.quizitup.classroom.Home.ClassroomHomeActivity;
 import com.example.quizitup.home.HomeActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -30,7 +31,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 Intent i;
                 if (auth.getUid() != null) {
-                    i = new Intent(SplashActivity.this, HomeActivity.class);
+                    i = new Intent(SplashActivity.this, ClassroomHomeActivity.class);
                 } else {
                     i = new Intent(SplashActivity.this, LoginActivity.class);
                 }

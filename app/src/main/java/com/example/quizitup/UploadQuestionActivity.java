@@ -71,7 +71,7 @@ public class UploadQuestionActivity extends AppCompatActivity {
     ImageButton imageButton;
 
     Workbook wb;
-    String key;
+    String key,classId;
 
     Double total = 0.0;
 
@@ -93,7 +93,7 @@ public class UploadQuestionActivity extends AppCompatActivity {
 
         // Check Storage Permission
         checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
-
+        classId = getIntent().getStringExtra("classId");
 
 //        Set Action bar background
         ActionBar actionBar = getSupportActionBar();
@@ -105,6 +105,7 @@ public class UploadQuestionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(UploadQuestionActivity.this, QuizDetailsActivity.class);
                 intent.putExtra("code", key);
+                intent.putExtra("classId", classId);
                 intent.putExtra("total", total);
                 startActivity(intent);
             }
@@ -341,6 +342,7 @@ public class UploadQuestionActivity extends AppCompatActivity {
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference = database.getReference("Quiz");
+//                DatabaseReference classroomReference = database.getReference("Classrooms").child(classId).child("Quiz");
                 DatabaseReference quizRef = databaseReference.push();
                 key = quizRef.getKey();
                 databaseReference.child(key).child("Code").setValue(key).addOnSuccessListener(new OnSuccessListener<Void>() {

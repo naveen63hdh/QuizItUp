@@ -14,6 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuizItUp">
         <activity
+            android:name=".classroom.MyClass.MyClassroomActivity"
+            android:exported="false" />
+        <activity
+            android:name=".classroom.Home.ClassroomHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".classroom.JoinClassroom"
+            android:exported="false" />
+        <activity
             android:name=".classroom.AddClassroomActivity"
             android:exported="false" />
         <activity

@@ -1,9 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".classroom.AddClassroomActivity">
+    android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/smoke_white"
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp"
+        tools:context=".classroom.AddClassroomActivity">
+
+        <EditText
+            android:id="@+id/classroomTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/editext_background"
+            android:hint="Course Name"
+            android:padding="15dp"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+
+        <EditText
+            android:id="@+id/descriptionTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/editext_background"
+            android:ems="10"
+            android:scrollbars="vertical"
+            android:gravity="top"
+            android:layout_marginTop="20dp"
+            android:hint="Course Description"
+            android:inputType="textMultiLine"
+            android:minLines="5"
+            android:textColorHint="@color/black"
+            android:maxLines="8"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/usernameTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/editext_background"
+            android:hint="Username Hint (Eg: rollno_name)"
+            android:padding="15dp"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ff0000"
+            android:textStyle="bold"
+            android:text="Please Enter in what format students need to give username at the time of joining classroom"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Course Type :"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                />
+
+            <RadioGroup
+                android:id="@+id/classType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+                <RadioButton
+                    android:id="@+id/openRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:buttonTint="@color/purple"
+                    android:textColor="@color/black"
+                    android:text="Open To All"/>
+
+                <RadioButton
+                    android:id="@+id/restrictedRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:buttonTint="@color/purple"
+                    android:text="Restricted"/>
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/create_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:text="Create Course" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
