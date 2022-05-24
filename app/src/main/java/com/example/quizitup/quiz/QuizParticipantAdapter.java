@@ -54,12 +54,12 @@ public class QuizParticipantAdapter extends RecyclerView.Adapter<QuizParticipant
 
     static class ParticipantViewHolder extends RecyclerView.ViewHolder {
         TextView nameTxt;
-        ImageView userImg;
+//        ImageView userImg;
 
         public ParticipantViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTxt = itemView.findViewById(R.id.participant_name);
-            userImg = itemView.findViewById(R.id.user_image);
+//            userImg = itemView.findViewById(R.id.user_image);
         }
     }
 }

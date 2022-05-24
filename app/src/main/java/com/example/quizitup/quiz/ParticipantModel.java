@@ -4,7 +4,7 @@ public class ParticipantModel {
 
     String name,url;
 
-    ParticipantModel(String name, String url) {
+    public ParticipantModel(String name, String url) {
 
         this.name = name;
         this.url = url;

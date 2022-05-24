@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,14 +18,24 @@ import com.example.quizitup.classroom.Fragments.CourseQuizFragment;
 import com.example.quizitup.classroom.Fragments.CourseResultsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MyClassroomActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
     String classId;
+    String uid;
 
+    boolean isOwner;
 
+    ProgressDialog dialog;
+    DatabaseReference classRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +47,41 @@ public class MyClassroomActivity extends AppCompatActivity implements BottomNavi
 
         classId = getIntent().getStringExtra("classId");
 
+        uid = FirebaseAuth.getInstance().getUid();
+
+        classRef = FirebaseDatabase.getInstance().getReference("Classrooms").child(classId);
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setSelectedItemId(R.id.all_quiz);
-        CourseQuizFragment courseQuizFragment = new CourseQuizFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("classId",classId);
-        courseQuizFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, courseQuizFragment).commit();
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dialog = ProgressDialog.show(this,"Loading...","Please Wait");
+
+        classRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                isOwner = snapshot.child("createdBy").getValue().toString().equals(uid);
+
+                CourseQuizFragment courseQuizFragment = new CourseQuizFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("classId",classId);
+                bundle.putBoolean("isOwner",isOwner);
+                courseQuizFragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, courseQuizFragment).commit();
+                bottomNavigationView.setOnNavigationItemSelectedListener(MyClassroomActivity.this);
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -85,14 +122,25 @@ public class MyClassroomActivity extends AppCompatActivity implements BottomNavi
                 CourseQuizFragment courseQuizFragment = new CourseQuizFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("classId",classId);
+                bundle.putBoolean("isOwner",isOwner);
                 courseQuizFragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, courseQuizFragment).commit();
                 return true;
             case R.id.participant:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new CourseParticipantsFragment()).commit();
+                CourseParticipantsFragment cpFragment = new CourseParticipantsFragment();
+                Bundle b = new Bundle();
+                b.putString("code",classId);
+                b.putBoolean("isOwner",isOwner);
+                cpFragment.setArguments(b);
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, cpFragment).commit();
                 return true;
             case R.id.result:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new CourseResultsFragment()).commit();
+                CourseResultsFragment crFragment = new CourseResultsFragment();
+                Bundle bun = new Bundle();
+                bun.putString("code",classId);
+                bun.putBoolean("isOwner",isOwner);
+                crFragment.setArguments(bun);
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, crFragment).commit();
                 return true;
         }
         return false;

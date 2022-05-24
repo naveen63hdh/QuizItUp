@@ -139,12 +139,10 @@ public class ClassroomHomeActivity extends AppCompatActivity {
                     }
                     ClassroomHomeAdapter adapter = new ClassroomHomeAdapter(classroomHomeModels,ClassroomHomeActivity.this);
                     recyclerView.setAdapter(adapter);
-                    progressDialog.dismiss();
 
 
                 }
-                else
-                    progressDialog.dismiss();
+                progressDialog.dismiss();
 
             }
 

@@ -13,18 +13,24 @@
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_join_classroom.xml" value="0.2359375" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_my_classroom.xml" value="0.2" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_participant_result.xml" value="0.25" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_question.xml" value="0.25" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_quiz_details.xml" value="0.25" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_quiz_home.xml" value="0.25" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/activity_upload_question.xml" value="0.25" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/card_classroom.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/card_participant.xml" value="0.24635416666666668" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/card_participant_request.xml" value="0.24635416666666668" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/card_quiz_home.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/card_quiz_marks.xml" value="0.25" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/dialog_join_quiz.xml" value="0.12708333333333333" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/dialog_quiz_fab.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/fragment_participants.xml" value="0.24635416666666668" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/fragment_participants2.xml" value="0.25" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/fragment_quiz_home.xml" value="0.25" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/fragment_quizzes.xml" value="0.12708333333333333" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/fragment_results.xml" value="0.25" />
+        <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/fragment_sign_in.xml" value="0.25" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/layout/fragment_today.xml" value="0.25" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/menu/bottom_menu.xml" value="0.25" />
         <entry key="..\:/Quizitup/Major Project/Quizitup/app/src/main/res/menu/course_menu.xml" value="0.25" />

@@ -22,5 +22,22 @@ public class TODO {
     ----------------------------------------Week 6--------------------------------------------------
     Bug Hunt - 2 (STUDENT and TEACHER)
     Preparation for next modules
+
+
+    void notifyUsers(String recipients) {
+     new Thread(new Runnable() {
+          @Override
+          public void run() {
+            try {
+              GMailSender sender = new GMailSender("quizitup.official@gmail.com",
+                 "Quizitup@123");
+              sender.sendMail("New Quiz has been created", message,
+                 "quizitup.official@gmail.com", recipients);
+            } catch (Exception e) {
+              Log.e("SendMail", e.getMessage(), e);
+          }
+        }
+        }).start();
+    }
   */
 }

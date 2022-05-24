@@ -6,14 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -21,6 +19,8 @@ import android.widget.ImageButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.quizitup.mail.GMailSender;
+import com.example.quizitup.question.QuestionModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -47,7 +47,7 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
 
     SwitchCompat switchCompat;
 
-    String quizCode, classId;
+    String quizCode, classId, emailList="";
     Double total;
     private int mYear, mMonth, mDay, mHour, mMinute;
 
@@ -99,6 +99,8 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(View v) {
 
+
+                ArrayList<String> courseParticipants = new ArrayList<>();
                 ProgressDialog dialog = ProgressDialog.show(QuizDetailsActivity.this, "", "Creating quiz");
                 HashMap<String, Object> participantMap = new HashMap<>();
                 participantRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -107,6 +109,7 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         HashMap<String, Object> participantTree = new HashMap<>();
 
+
                         participantTree.put("score",0);
                         participantTree.put("isCompleted",0);
 
@@ -114,7 +117,8 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
                             String key = snap.getKey();
                             String uname = snap.child("uname").getValue().toString();
                             participantTree.put("Name",uname);
-                            Toast.makeText(QuizDetailsActivity.this, uname, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(QuizDetailsActivity.this, uname, Toast.LENGTH_SHORT).show();
+                            courseParticipants.add(key);
                             participantMap.put(key,participantTree);
                         }
 
@@ -127,7 +131,8 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-                        Toast.makeText(QuizDetailsActivity.this, date, Toast.LENGTH_SHORT).show();
+                        final String dt = date;
+//                        Toast.makeText(QuizDetailsActivity.this, date, Toast.LENGTH_SHORT).show();
 
                         HashMap<String, Object> quizMap = new HashMap<>();
                         quizMap.put("quiz name", quizNameTxt.getText().toString());
@@ -160,10 +165,55 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (!task.isSuccessful()) {
                                                 Toast.makeText(QuizDetailsActivity.this, "Error while creating quiz", Toast.LENGTH_SHORT).show();
+                                                dialog.dismiss();
                                             } else {
-                                                Toast.makeText(QuizDetailsActivity.this, "Quiz created successfully", Toast.LENGTH_SHORT).show();
+                                                quizRef.child(quizCode).child("Question").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    int count = 0;
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        HashMap<String,Object> questions = downloadQuestions(snapshot);
+
+                                                        int size = courseParticipants.size();
+                                                        if (size==0)
+                                                            dialog.dismiss();
+                                                        for(String key : courseParticipants) {
+                                                            userRef.child(key).child("Email").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(@NonNull DataSnapshot mailSnap) {
+                                                                    emailList += mailSnap.getValue()+", ";
+                                                                    userRef.child(key).child("Quiz").child(dt).child(quizCode).updateChildren(questions).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            count++;
+                                                                            if(count==size && task.isSuccessful()) {
+                                                                                emailList = emailList.trim().replaceAll(",$","");
+                                                                                Log.i("Emails_test",emailList);
+                                                                                notifyUsers(emailList);
+                                                                                Toast.makeText(QuizDetailsActivity.this, "Quiz created successfully", Toast.LENGTH_SHORT).show();
+                                                                                dialog.dismiss();
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                }
+
+                                                                @Override
+                                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                                }
+                                                            });
+
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+//                                                Toast.makeText(QuizDetailsActivity.this, "Quiz created successfully", Toast.LENGTH_SHORT).show();
                                             }
-                                            dialog.dismiss();
+
                                         }
                                     });
                                 } else {
@@ -204,6 +254,22 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
         });
 
     }
+
+    private HashMap<String, Object> downloadQuestions(DataSnapshot snapshot) {
+        HashMap<String,Object> questions = new HashMap<>();
+        for (DataSnapshot questionSnap : snapshot.getChildren()) {
+            String qno,ans;
+            Double marks;
+
+            qno = questionSnap.getKey();
+            ans = questionSnap.child("ans").getValue().toString();
+            marks = Double.valueOf(questionSnap.child("marks").getValue().toString());
+            QuestionModel model = new QuestionModel(marks,ans,"NULL",0);
+            questions.put(qno,model);
+        }
+        return questions;
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -321,4 +387,42 @@ public class QuizDetailsActivity extends AppCompatActivity implements View.OnCli
 //            timePickerDialog.show();
 //        }
     }
+
+    void notifyUsers(String recipients) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    GMailSender sender = new GMailSender("quizitup.official@gmail.com",
+                            "Quizitup@123");
+                    sender.sendMail("New Quiz Has been created!!!", "Dear Participants a new quiz has been created inside course "+classId,
+                            "quizitup.official@gmail.com", recipients);
+                } catch (Exception e) {
+                    Log.e("SendMail", e.getMessage(), e);
+                }
+            }
+        }).start();
+    }
 }
+
+
+//TODO
+// Add this to mailer
+//for (String id : courseParticipants) {
+//        userRef.child(id).child("Email").addListenerForSingleValueEvent(new ValueEventListener() {
+//@Override
+//public void onDataChange(@NonNull DataSnapshot snapshot) {
+//        emailList += snapshot.getValue()+", ";
+//        count++;
+//        if(count==size && task.isSuccessful()) {
+//        Toast.makeText(QuizDetailsActivity.this, "Quiz created successfully", Toast.LENGTH_SHORT).show();
+//        dialog.dismiss();
+//        }
+//        }
+//
+//@Override
+//public void onCancelled(@NonNull DatabaseError error) {
+//
+//        }
+//        });
+//        }

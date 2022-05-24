@@ -12,11 +12,11 @@
         android:layout_margin="8dp"
         >
 
-        <ImageView
-            android:id="@+id/user_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/user_s" />
+<!--        <ImageView-->
+<!--            android:id="@+id/user_image"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/user_s" />-->
 
         <TextView
             android:id="@+id/participant_name"

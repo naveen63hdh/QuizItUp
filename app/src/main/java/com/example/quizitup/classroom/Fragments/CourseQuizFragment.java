@@ -55,6 +55,8 @@ public class CourseQuizFragment extends Fragment {
 
     ProgressDialog progressDialog;
 
+    boolean isOwner;
+
     public CourseQuizFragment() {
         // Required empty public constructor
 
@@ -73,6 +75,7 @@ public class CourseQuizFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         classId = bundle.getString("classId");
+        isOwner = bundle.getBoolean("isOwner");
 
         moreFab = view.findViewById(R.id.more_btn);
         recyclerView = view.findViewById(R.id.contentRecycler);
@@ -90,22 +93,12 @@ public class CourseQuizFragment extends Fragment {
         quizReference = database.getReference("Quiz");
         statusReference = database.getReference("Status");
 
-        moreFab.setVisibility(View.GONE);
-        classReference.child("createdBy").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue().toString().equals(uid)) {
-                    moreFab.setVisibility(View.VISIBLE);
-                } else {
-                    moreFab.setVisibility(View.GONE);
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        if (isOwner) {
+            moreFab.setVisibility(View.VISIBLE);
+        } else {
+            moreFab.setVisibility(View.GONE);
+        }
 
 
         moreFab.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +159,7 @@ public class CourseQuizFragment extends Fragment {
                                         }
                                     }
                                 }
-                                HomeAdapter homeAdapter = new HomeAdapter(classId,quizHomeModels, getContext());
+                                HomeAdapter homeAdapter = new HomeAdapter(classId, quizHomeModels, getContext());
                                 recyclerView.setAdapter(homeAdapter);
                                 progressDialog.dismiss();
                             } else {
@@ -182,12 +175,12 @@ public class CourseQuizFragment extends Fragment {
                         }
                     });
 
-                } else{
+                } else {
                     Toast.makeText(getContext(), "No Data Found", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
 
-             }
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -252,7 +245,7 @@ public class CourseQuizFragment extends Fragment {
 //            if (now.compareTo(start)>=0 && status_code<2)
 //                status_code = 2;
 //            else
-            if (status_code==1) {
+            if (status_code == 1) {
                 if (now.compareTo(start) >= 0)
                     status_code = 2;
                 if (now.compareTo(end) >= 0)
